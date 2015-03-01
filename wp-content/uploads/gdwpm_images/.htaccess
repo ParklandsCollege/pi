@@ -1,0 +1,4 @@
+RewriteEngine on
+RewriteBase /
+RewriteCond %{QUERY_STRING} !^imgid= [NC]
+RewriteRule ^(.*)$ parklands/wp-content/uploads/gdwpm_images/index.php?imgid=$1 [L,NC,QSA]
