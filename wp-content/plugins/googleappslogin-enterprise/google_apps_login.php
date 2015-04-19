@@ -4,7 +4,7 @@
  * Plugin Name: Google Apps Login Enterprise
  * Plugin URI: http://wp-glogin.com/
  * Description: Simple secure login and user management for Wordpress through your Google Apps domain (uses secure OAuth2, and MFA if enabled)
- * Version: 2.8.5
+ * Version: 2.8.6
  * Author: Dan Lester
  * Author URI: http://wp-glogin.com/
  * License: Enterprise Paid per WordPress site and Google Apps domain
@@ -48,7 +48,7 @@ require_once( plugin_dir_path(__FILE__).'/core/commercial_google_apps_login.php'
 
 class enterprise_google_apps_login extends commercial_google_apps_login {
 	
-	protected $PLUGIN_VERSION = '2.8.5';
+	protected $PLUGIN_VERSION = '2.8.6';
 	
 	// Singleton
 	private static $instance = null;

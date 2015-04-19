@@ -109,7 +109,7 @@ class commercial_google_apps_login extends core_google_apps_login {
 		*/
 		
 		$wpuserdata = Array(
-			'user_login' => $userinfo->email, // May need to de-dupe
+			'user_login' => apply_filters('gal_sanitize_username', $userinfo->email, $userinfo), // May need to de-dupe
 			// 'user_nicename' - WP defaults to sanitize_title(user_login)
 			'user_pass' => wp_generate_password(12, false),
 			'user_email' => $userinfo->email, // Should be unique since didn't match existing user
