@@ -58,6 +58,7 @@ get_header(); ?>
 	}
 ?>
 	<div class="gdlr-lms-content">
+
 		<div class="gdlr-lms-container gdlr-lms-container">
 			<div class="gdlr-lms-item">
 
@@ -84,9 +85,7 @@ get_header(); ?>
 	?>
 
 	<form name="lostpasswordform" class="gdlr-lms-form" action="<?php echo esc_url( network_site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ); ?>" method="post">
-		<p class="galogin">
-			<a href="<?php echo $authUrl; ?>"><?php echo esc_html($this->get_login_button_text()); ?></a>
-		</p>
+		
 		<p class="gdlr-lms-half-left">
 			<label><?php _e('Username or E-mail:') ?></label>
 			<input type="text" name="user_login" class="input" value="<?php echo esc_attr($user_login); ?>" size="20" />
@@ -109,6 +108,7 @@ get_header(); ?>
 ?>
 
 <form class="gdlr-lms-form" method="post" >
+
 	<p>
 		<?php _e('<strong>Hint:</strong> The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; ).', 'gdlr-lms'); ?>
 	</p>
@@ -123,7 +123,7 @@ get_header(); ?>
 	</p>
 	<div class="clear" ></div>
 
-	<?php do_action( 'resetpass_form', $user ); ?>
+	<?php  do_action( 'resetpass_form', $user ); ?>
 	<p>
 		<input type="submit" class="gdlr-lms-button" value="<?php _e('Reset Password', 'gdlr-lms'); ?>" />
 	</p>
