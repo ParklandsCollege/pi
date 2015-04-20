@@ -637,7 +637,7 @@
 
 			var logo = main_area.find('.gdlr-logo');
 			var logo_img = main_area.find('.gdlr-logo img');
-			var navigation = main_area.find('.gdlr-navigation-wrapper');
+			// var navigation = main_area.find('.gdlr-navigation-wrapper');
 			var original = {
 				logo_top: logo.css('margin-top'),
 				logo_bottom: logo.css('margin-bottom'),

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 // for reset password section
 if( isset($_GET['action']) && $_GET['action'] == 'reset_pass' ){
@@ -11,7 +11,7 @@ if( isset($_GET['action']) && $_GET['action'] == 'reset_pass' ){
 		wp_safe_redirect(remove_query_arg(array('key')));
 		exit;
 	}
-	
+
 	if( isset($_COOKIE[$rp_cookie]) && 0 < strpos( $_COOKIE[$rp_cookie], ':' ) ) {
 		list($rp_login, $rp_key) = explode( ':', wp_unslash( $_COOKIE[ $rp_cookie ] ), 2 );
 		$user = check_password_reset_key( $rp_key, $rp_login );
@@ -22,31 +22,31 @@ if( isset($_GET['action']) && $_GET['action'] == 'reset_pass' ){
 	if( !$user || is_wp_error($user) ){
 		setcookie($rp_cookie, ' ', time() - YEAR_IN_SECONDS, $rp_path, COOKIE_DOMAIN, is_ssl(), true);
 		$args = array('login'=>home_url(), 'action'=>'lost_password');
-		
+
 		if ( $user && $user->get_error_code() === 'expired_key' )
 			$args['status'] = 'expiredkey';
 		else
 			$args['status'] = 'invalidkey';
-			
-		wp_redirect(add_query_arg($args, home_url()));	
+
+		wp_redirect(add_query_arg($args, home_url()));
 		exit;
 	}
-	
+
 	$rp_errors = new WP_Error();
 	if( isset($_POST['pass1']) && $_POST['pass1'] != $_POST['pass2'] ){
 		$rp_errors->add('password_reset_mismatch', __('The passwords do not match.', 'gdlr-lms'));
 	}
-	
+
 	do_action( 'validate_password_reset', $rp_errors, $user );
-	
+
 	if( (!$rp_errors->get_error_code()) && isset($_POST['pass1']) && !empty($_POST['pass1']) ){
 		reset_password($user, $_POST['pass1']);
 		setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, $rp_path, COOKIE_DOMAIN, is_ssl(), true );
-		
-		wp_redirect(add_query_arg(array('login'=>home_url(), 'status'=>'rp_complete'), home_url()));	
+
+		wp_redirect(add_query_arg(array('login'=>home_url(), 'status'=>'rp_complete'), home_url()));
 		exit();
 	}
-	
+
 }
 
 get_header(); ?>
@@ -58,10 +58,11 @@ get_header(); ?>
 	}
 ?>
 	<div class="gdlr-lms-content">
-		<div class="gdlr-lms-container gdlr-lms-container">
-			<div class="gdlr-lms-item">	
 
-<!-- lost password form -->			
+		<div class="gdlr-lms-container gdlr-lms-container">
+			<div class="gdlr-lms-item">
+
+<!-- lost password form -->
 <?php if( isset($_GET['action']) && $_GET['action'] == 'lost_password' ){ ?>
 	<?php
 		if( empty($_GET['status']) ){
@@ -82,8 +83,9 @@ get_header(); ?>
 			echo '</div>';
 		}
 	?>
-	
+
 	<form name="lostpasswordform" class="gdlr-lms-form" action="<?php echo esc_url( network_site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ); ?>" method="post">
+		
 		<p class="gdlr-lms-half-left">
 			<label><?php _e('Username or E-mail:') ?></label>
 			<input type="text" name="user_login" class="input" value="<?php echo esc_attr($user_login); ?>" size="20" />
@@ -96,8 +98,8 @@ get_header(); ?>
 		</p>
 	</form>
 
-<!-- reset password form -->		
-<?php }else if( isset($_GET['action']) && $_GET['action'] == 'reset_pass' ){ 
+<!-- reset password form -->
+<?php }else if( isset($_GET['action']) && $_GET['action'] == 'reset_pass' ){
 	if( is_wp_error($rp_errors) && $rp_errors->get_error_code() ){
 		echo '<div class="gdlr-lms-error">';
 		echo $rp_errors->get_error_message();
@@ -106,10 +108,11 @@ get_header(); ?>
 ?>
 
 <form class="gdlr-lms-form" method="post" >
+
 	<p>
 		<?php _e('<strong>Hint:</strong> The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; ).', 'gdlr-lms'); ?>
 	</p>
-	
+
 	<p class="gdlr-lms-half-left">
 		<label for="pass1"><?php _e('New password') ?></label>
 		<input type="password" name="pass1" value="" autocomplete="off" />
@@ -120,13 +123,13 @@ get_header(); ?>
 	</p>
 	<div class="clear" ></div>
 
-	<?php do_action( 'resetpass_form', $user ); ?>
+	<?php  do_action( 'resetpass_form', $user ); ?>
 	<p>
 		<input type="submit" class="gdlr-lms-button" value="<?php _e('Reset Password', 'gdlr-lms'); ?>" />
 	</p>
 </form>
-	
-<!-- login form -->	
+
+<!-- login form -->
 <?php }else{ ?>
 	<?php if(!empty($_GET['status']) && $_GET['status'] == 'login_incorrect'){ ?>
 		<div class="gdlr-lms-error">
@@ -141,7 +144,7 @@ get_header(); ?>
 		<?php _e('Your password has been reset.', 'gdlr-lms'); ?>
 		</div>
 	<?php } ?>
-	
+
 	<form class="gdlr-lms-form" method="post" action="<?php echo esc_url(site_url('wp-login.php', 'login_post')); ?>">
 		<p class="gdlr-lms-half-left">
 			<label><?php _e('Username', 'gdlr-lms'); ?></label>
@@ -169,7 +172,7 @@ get_header(); ?>
 </div>
 </div>
 <?php
-if( !empty($gdlr_lms_option['show-sidebar']) && $gdlr_lms_option['show-sidebar'] == 'enable' ){ 
+if( !empty($gdlr_lms_option['show-sidebar']) && $gdlr_lms_option['show-sidebar'] == 'enable' ){
 	get_sidebar( 'content' );
 	get_sidebar();
 }
