@@ -890,7 +890,7 @@ $wp_customize->add_control(
 
 // Title
 $wp_customize->add_setting( 'blog_home_title', array(
-	'default'	=> 'Latest Posts',
+	'default'	=> 'News',
 	'transport'	=> 'refresh',
 	'sanitize-callback' => ''
 ));

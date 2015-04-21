@@ -269,7 +269,7 @@ class gdm_controlled_folders {
 			$cf_table->prepare_items();
 			?>
 				<div class="wrap">
-					<h2>Controlled Folders <em>(Google Drive Embedder)</em> <a href="<?php echo add_query_arg( array( 'gdm-action' => 'add_controlled_folder' ) ); ?>" class="add-new-h2">Add New</a></h2>
+					<h2>Controlled Folders <em>(Google Drive Embedder)</em> <a href="<?php echo esc_url(add_query_arg( array( 'gdm-action' => 'add_controlled_folder' ) )); ?>" class="add-new-h2">Add New</a></h2>
 					
 					<form id="gdm-cf-filter" method="get" action="<?php echo admin_url( 'admin.php' ); ?>">
 						<?php $cf_table->search_box( 'Search', 'gdm-cfolders' ); ?>

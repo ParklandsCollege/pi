@@ -169,9 +169,9 @@ class GDM_Controlled_Folders_Table extends WP_List_Table {
 		
 		$edit_url = add_query_arg( array( 'gdm-action' => 'edit_cf', 'cf' => $cf->ID ) );
 
-		$row_actions['edit'] = '<a href="' . $edit_url . '">Edit</a>';
+		$row_actions['edit'] = '<a href="' . esc_url($edit_url) . '">Edit</a>';
 
-		$row_actions['delete'] = '<a href="' . wp_nonce_url( add_query_arg( array( 'gdm-action' => 'delete_cf', 'cf' => $cf->ID ) ), 'gdm_cf_nonce' ) . '">Delete</a>';
+		$row_actions['delete'] = '<a href="' . esc_url(wp_nonce_url( add_query_arg( array( 'gdm-action' => 'delete_cf', 'cf' => $cf->ID ) ), 'gdm_cf_nonce' )) . '">Delete</a>';
 
 		return '<a href="'.$edit_url.'">'.htmlentities( $item['title'] ).'</a>' . $this->row_actions( $row_actions );
 	}

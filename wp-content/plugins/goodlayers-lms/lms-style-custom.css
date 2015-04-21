@@ -80,3 +80,15 @@
 .gdlr-lms-author-extra-info-wrapper{ border-bottom-color: #72d5cd; }
 .gdlr-lms-extra-info .gdlr-tail{ color: #b1b1b1; }
 .gdlr-lms-extra-info .gdlr-head{ color: #717171; }
+.google-login-btn {
+  background: #4285f4;
+  background: -webkit-linear-gradient(top,#4387fd,#4683ea);
+  clear:both;
+  padding: 14px 25px 14px;
+  color:white;
+  border-radius:2px;
+  -moz-radius:2px;
+}
+.google-login-btn:hover {
+  color:white;
+}

@@ -85,7 +85,7 @@ get_header(); ?>
 	?>
 
 	<form name="lostpasswordform" class="gdlr-lms-form" action="<?php echo esc_url( network_site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ); ?>" method="post">
-		
+
 		<p class="gdlr-lms-half-left">
 			<label><?php _e('Username or E-mail:') ?></label>
 			<input type="text" name="user_login" class="input" value="<?php echo esc_attr($user_login); ?>" size="20" />
@@ -146,6 +146,7 @@ get_header(); ?>
 	<?php } ?>
 
 	<form class="gdlr-lms-form" method="post" action="<?php echo esc_url(site_url('wp-login.php', 'login_post')); ?>">
+
 		<p class="gdlr-lms-half-left">
 			<label><?php _e('Username', 'gdlr-lms'); ?></label>
 			<input type="text" name="log" />
@@ -163,6 +164,7 @@ get_header(); ?>
 			<input type="hidden" name="rememberme"  value="forever" />
 			<input type="hidden" name="redirect_to" value="<?php echo $_GET['login'] ?>" />
 			<input type="submit" class="gdlr-lms-button" value="<?php _e('Sign In!', 'gdlr-lms'); ?>" />
+			<a href="/wp-login.php?gaautologin=true" class="google-login-btn">Login with Google</a>
 		</p>
 	</form>
 <?php } ?>

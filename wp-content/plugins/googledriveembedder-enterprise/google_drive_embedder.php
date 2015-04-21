@@ -4,7 +4,7 @@
  * Plugin Name: Google Drive Embedder Enterprise
  * Plugin URI: http://wp-glogin.com/drive
  * Description: Easily browse for Google Drive documents and embed directly in your posts and pages. Extends the popular Google Apps Login plugin so no extra user authentication (or admin setup) is required. 
- * Version: 3.5
+ * Version: 3.5.2
  * Author: Dan Lester
  * Author URI: http://wp-glogin.com/
  * License: Premium Paid per WordPress site and Google Apps domain
@@ -34,7 +34,7 @@ require_once( plugin_dir_path(__FILE__).'/core/commercial_google_drive_embedder.
 
 class gdm_enterprise_google_drive_embedder extends commercial_google_drive_embedder {
 	
-	protected $PLUGIN_VERSION = '3.5';
+	protected $PLUGIN_VERSION = '3.5.2';
 	
 	// Singleton
 	private static $instance = null;
@@ -492,7 +492,13 @@ class gdm_enterprise_google_drive_embedder extends commercial_google_drive_embed
 		$dh = $this->get_drive_helper();
 		try {
 			$checkfolderid = $this->get_attached_folderid($post_id, $options['gdm_base_folder']);
-			if (!$dh->is_ancestor($checkfolderid, $parent_folderid)) {
+			
+			$hist = array();
+			if (isset($_POST['hist'])) {
+				$hist = is_array($_POST['hist']) ? $_POST['hist'] : explode(',', $_POST['hist']);
+			}
+			
+			if (!$dh->is_ancestor($checkfolderid, $parent_folderid, $hist)) {
 				die(json_encode(array('error' => array('message' => 'Folder id '.$parent_folderid.' is not a descendant of folder '.$checkfolderid))));
 			}
 		}
@@ -563,7 +569,12 @@ class gdm_enterprise_google_drive_embedder extends commercial_google_drive_embed
 				$incomingfolderid = $dh->get_folderid_from_path($path);
 			}
 			
-			if (!$dh->is_ancestor($checkfolderid, $incomingfolderid)) {
+			$hist = array();
+			if (isset($_POST['hist'])) {
+				$hist = is_array($_POST['hist']) ? $_POST['hist'] : explode(',', $_POST['hist']);
+			}
+
+			if (!$dh->is_ancestor($checkfolderid, $incomingfolderid, $hist)) {
 				die(json_encode(array('error' => array('message' => 'Folder id '.$incomingfolderid.' is not a descendant of folder '.$checkfolderid))));
 			}
 		}
