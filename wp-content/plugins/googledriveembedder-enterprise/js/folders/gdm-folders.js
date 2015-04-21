@@ -114,7 +114,8 @@ var gdmFolderViewer = {
 		var requestFunction = (jfolderdiv.attr('data-gdm-perms-view') == 'drive' 
 			? gapi.client.request
 			: ( jfolderdiv.attr('data-gdm-perms-view') == 'yes' ? gdmProxyRequest(jfolderdiv.attr('data-gdm-postid'), 
-																				  jfolderdiv.attr('data-gdm-nonce')) 
+																				  jfolderdiv.attr('data-gdm-nonce'),
+																				  gdmFolderViewer.getHistory(jfolderdiv)) 
 																: gdmDisallowedRequest));
 	
 		var path = '/drive/v2/files/'+folderid,
@@ -247,7 +248,8 @@ var gdmFolderViewer = {
 		var requestFunction = (jfolderdiv.attr('data-gdm-perms-view') == 'drive' 
 			? gapi.client.request
 			: ( jfolderdiv.attr('data-gdm-perms-view') == 'yes' ? gdmProxyRequest(jfolderdiv.attr('data-gdm-postid'),
-																				  jfolderdiv.attr('data-gdm-nonce')) 
+																				  jfolderdiv.attr('data-gdm-nonce'),
+																				  gdmFolderViewer.getHistory(jfolderdiv)) 
 																: gdmDisallowedRequest));
 	
 		gdmFolderViewer.disableLinks(jfolderdiv);
@@ -600,7 +602,7 @@ var gdmFolderViewer = {
 
 };
 
-function gdmProxyRequest(postid, nonce) {
+function gdmProxyRequest(postid, nonce, hist) {
 	
 	return function(opts) {
 
@@ -609,7 +611,7 @@ function gdmProxyRequest(postid, nonce) {
 				
 		    	  jQuery.ajax({
 		    		  url: gdm_trans.ajaxurl,
-		    		  data: {action: 'gdm_api_proxy', options: opts, postId: postid, nonce: nonce},
+		    		  data: {action: 'gdm_api_proxy', options: opts, postId: postid, nonce: nonce, hist: hist},
 		    		  dataType: 'json',
 		    		  type: 'POST',
 		    		  success: function(resp){
@@ -693,7 +695,9 @@ var gdmFileUploader = {
 		var uploadFunction = (jfolderdiv.attr('data-gdm-perms-upload') == 'drive' 
 						? gdmFileUploader.insertFileDirect
 						: (jfolderdiv.attr('data-gdm-perms-upload') == 'yes' 
-								? gdmFileUploader.insertFileProxy(jfolderdiv.attr('data-gdm-postid'), jfolderdiv.attr('data-gdm-nonce')) 
+								? gdmFileUploader.insertFileProxy(jfolderdiv.attr('data-gdm-postid'), 
+																  jfolderdiv.attr('data-gdm-nonce'),
+																  gdmFolderViewer.getHistory(jfolderdiv)) 
 								: gdmFileUploader.insertFileDisallowed));
 				
 		var filesuploaded = 0;
@@ -796,7 +800,7 @@ var gdmFileUploader = {
       },
       
       // Need a way on server to validate we're allowed to use Service Account
-      insertFileProxy : function(postid, nonce) {
+      insertFileProxy : function(postid, nonce, hist) {
     	  
     	  return function(fileData, folderid, callback) {
 	        	  
@@ -812,6 +816,7 @@ var gdmFileUploader = {
 	      	    	  
 	    	  formData.append('postId', postid);
 	    	  formData.append('nonce', nonce);
+	    	  formData.append('hist', hist);
 	    	  
 	    	  formData.append('file', fileData, fileData.name);
 	    	  

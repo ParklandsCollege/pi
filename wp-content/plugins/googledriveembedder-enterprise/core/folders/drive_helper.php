@@ -184,7 +184,7 @@ class gdm_drive_helper {
 		}
 	}
 	
-	public function is_ancestor($parentfolderid, $childfolderid, $depth=0) {
+	public function is_ancestor($parentfolderid, $childfolderid, $hist) {
 		if ($parentfolderid == $childfolderid) {
 			return true;
 		}
@@ -193,25 +193,24 @@ class gdm_drive_helper {
 			return false;
 		}
 		
-		$trychildren = $this->get_child_folders($parentfolderid);
-		
-		if (in_array($childfolderid, $trychildren)) {
-			return true;
+		if (count($hist) == 0) {
+			return false;
 		}
-		// Search in each child
-		if ($depth < 5) {
-			foreach ($trychildren as $tryid) {
-				if ($this->is_ancestor($tryid, $childfolderid, $depth+1)) {
-					return true;
-				}
+		
+		if ($hist[0] != $parentfolderid) {
+			return false;
+		}
+		
+		$hist[] = $childfolderid;
+		
+		for ($i=0; $i < count($hist)-1 ; ++$i) {
+			// Check each point in the hierarchy that the next folder is genuinely a child of the next
+			if (($hist[$i] != $hist[$i+1]) && !$this->is_parent_child($hist[$i], $hist[$i+1])) {
+				return false;
 			}
 		}
-		else {
-			error_log("Depth reached in search for descendants");
-			throw new gdm_Drive_Exception("Folder ".$childfolderid." may not be a descendant of folder ".$parentfolderid." (but stopped searching due to depth)");	
-		}
 		
-		return false;
+		return true;
 	}
 	
 	protected function get_child_folders($parentfolderid) {
@@ -231,6 +230,31 @@ class gdm_drive_helper {
 		}
 				
 		return $childfolders;
+	}
+	
+	protected function is_parent_child($parentfolderid, $childfolderid) {
+		return $this->wrap_drivesa_call(array($this, 'do_is_parent_child'),
+				array('parentfolderid' => $parentfolderid, 'childfolderid' => $childfolderid));
+	}
+	
+	protected function do_is_parent_child($driveservice, $_params) {
+		extract($_params);
+	
+		try {
+			$obj = $driveservice->children->get($parentfolderid, $childfolderid);
+			if ($obj->id == $childfolderid) {
+				return true;
+			}
+		}
+		catch (GoogleGAL_Service_Exception $e) {
+			if ($e->getCode() == 404) {
+				return false;
+			} else {
+				throw $e;
+			}
+		}
+		
+		return false;
 	}
 	
 	public function set_embed_parent_owner($drivefileid, $want_parent_folderid, $want_set_owner, $current_user_email, $custom_properties=null) {
@@ -505,6 +529,7 @@ class gdm_drive_helper {
 		
 		} catch (GoogleGAL_Auth_Exception $ge) {
 			$error = $ge->getMessage();
+
 			if (preg_match('/Error refreshing the OAuth2 token.+invalid_grant/s', $error)) {
 				/*
 				 * When keys don't match etc
@@ -530,6 +555,9 @@ class gdm_drive_helper {
 			else {
 				$msg = "Google Auth Error fetching Drive data: ".$ge->getMessage();
 			}
+			
+			// $msg .= ' ['.$error.']';
+
 		}
 		catch (GAL_Service_Exception $e) {
 			$msg = "GAL Error fetching Google Drive data: ".$e->getMessage();

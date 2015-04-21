@@ -39,7 +39,7 @@
 
 				<!-- logo -->
 				<a class="header__logo" href="<?php echo home_url(); ?>">
-					<img src="<?php echo $theme_settings->general['logo'] ?> " alt="Logo"/>
+					<div class="site_title"><?php bloginfo('name'); ?></div>
 				</a>
 				<!-- /logo -->
 
