@@ -164,7 +164,7 @@ get_header(); ?>
 			<input type="hidden" name="rememberme"  value="forever" />
 			<input type="hidden" name="redirect_to" value="<?php echo $_GET['login'] ?>" />
 			<input type="submit" class="gdlr-lms-button" value="<?php _e('Sign In!', 'gdlr-lms'); ?>" />
-			<a href="/wp-login.php?gaautologin=true" class="google-login-btn">Login with Google</a>
+			<a href="http://pi.parklands.co.za/wp-login.php?gaautologin=true" class="google-login-btn">Login with Google</a>
 		</p>
 	</form>
 <?php } ?>
