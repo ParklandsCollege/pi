@@ -4,7 +4,7 @@ html.ltie9 body, body{ min-width: 1140px; } .container{ max-width: 1140px; } .gd
 .gdlr-logo{ margin-top: 37px; }
 .gdlr-logo{ margin-bottom: 41px; }
 .gdlr-navigation-wrapper{ margin-top: 42px; }
-h1, h2, h3, h4, h5, h6{ font-family: "Open Sans"; }
+h1, h2, h3, h4, h5, h6{ font-family: "Raleway"; }
 body, input, textarea, select{ font-family: "Montserrat"; }
 .gdlr-navigation{ font-family: "Raleway"; }
 .gdlr-slider-item{ font-family: "Montserrat"; }
@@ -236,3 +236,6 @@ html .woocommerce .quantity .minus, html .woocommerce #content .quantity .minus,
 .gdlr-skin-green-twitter .gdlr-skin-box, .gdlr-skin-green-twitter .gdlr-column-service-item .gdlr-skin-box, .gdlr-skin-green-twitter .gdlr-flex-prev, .gdlr-skin-green-twitter .gdlr-flex-next{ background-color: #68b9b2; }
 .gdlr-skin-green-twitter *, .gdlr-skin-green-twitter .gdlr-skin-border{ border-color: #ffffff; }
 .gdlr-skin-green-twitter .gdlr-button, .gdlr-skin-green-twitter .gdlr-button:hover, .gdlr-skin-green-twitter input[type="button"], .gdlr-skin-green-twitter input[type="submit"]{ color: #ffffff; background-color: #ffffff;  }
+.gdlr-item-title-wrapper .gdlr-flex-prev,
+.gdlr-item-title-wrapper .gdlr-flex-next{ display: inline-block; vertical-align: middle; }
+.gdlr-item-title-wrapper .gdlr-item-title { vertical-align: middle; }
