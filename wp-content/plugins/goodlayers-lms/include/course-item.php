@@ -303,15 +303,15 @@
 			echo '<h3 class="gdlr-lms-course-title"><a href="' . get_permalink() . '">' . get_the_title() . '</a></h3>';
 
 			// price
-			// echo '<div class="gdlr-lms-course-price">';
-			// if( !empty($course_options['price']) && empty($course_options['discount-price']) ){
-			// 	echo '<span class="price-button">' . gdlr_lms_money_format($course_options['price']) . '</span>';
-			// }else if( !empty($course_options['discount-price']) ){
-			// 	echo '<span class="price-button">' . gdlr_lms_money_format($course_options['discount-price']) . '</span>';
-			// }else{
-			// 	echo '<span class="price-button blue">' . __('Free' ,'gdlr-lms') . '</span>';
-			// }
-			// echo '</div>';
+			echo '<div class="gdlr-lms-course-price">';
+			if( !empty($course_options['price']) && empty($course_options['discount-price']) ){
+				echo '<span class="price-button">' . gdlr_lms_money_format($course_options['price']) . '</span>';
+			}else if( !empty($course_options['discount-price']) ){
+				echo '<span class="price-button">' . gdlr_lms_money_format($course_options['discount-price']) . '</span>';
+			}else{
+				echo '<span class="price-button blue">' . __('Free' ,'gdlr-lms') . '</span>';
+			}
+			echo '</div>';
 
 			// date
 			echo '<div class="gdlr-lms-course-info" >';
