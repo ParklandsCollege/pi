@@ -362,10 +362,10 @@
 
 			// date
 			echo '<div class="gdlr-lms-course-info" >';
-			echo '<i class="icon-time"></i>';
-			echo '<span class="tail">' . gdlr_lms_date_format($course_options['start-date']);
-			echo empty($course_options['end-date'])? '': ' - ' . gdlr_lms_date_format($course_options['end-date']);
-			echo '</span>';
+			// echo '<i class="icon-time"></i>';
+			// echo '<span class="tail">' . gdlr_lms_date_format($course_options['start-date']);
+			// echo empty($course_options['end-date'])? '': ' - ' . gdlr_lms_date_format($course_options['end-date']);
+			// echo '</span>';
 			echo '</div>';
 
 			echo '<div class="clear"></div>';
