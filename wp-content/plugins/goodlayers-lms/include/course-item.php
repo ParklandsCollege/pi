@@ -628,7 +628,7 @@
 					break;
 				case 'start':
 					echo '<a class="gdlr-lms-button cyan" href="' . add_query_arg(array('course_type'=>'content', 'course_page'=>1), get_permalink()) . '" >';
-					_e('Start the course', 'gdlr-lms');
+					_e('Start the unit', 'gdlr-lms');
 					echo '</a>';
 					break;
 				case 'proceed-payment':

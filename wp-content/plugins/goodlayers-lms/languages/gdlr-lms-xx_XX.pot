@@ -1277,7 +1277,7 @@ msgid "Learn More"
 msgstr ""
 
 #: include/course-item.php:494 include/course-item.php:498
-msgid "Start the course"
+msgid "Start the unit"
 msgstr ""
 
 #: include/course-item.php:506
