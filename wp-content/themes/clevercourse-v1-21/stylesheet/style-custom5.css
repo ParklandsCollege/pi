@@ -1,10 +1,10 @@
 html.ltie9 body, body{ min-width: 1140px; } .container{ max-width: 1140px; } .gdlr-caption-wrapper .gdlr-caption-inner{ max-width: 1140px; }
 .body-wrapper.gdlr-boxed-style{ max-width: 1220px; overflow: hidden; } .body-wrapper.gdlr-boxed-style .gdlr-header-wrapper{ max-width: 1220px; margin: 0px auto; }
 .gdlr-logo{ max-width: 320px; }
-.gdlr-logo{ margin-top: 0px; }
-.gdlr-logo{ margin-bottom: 0px; }
+.gdlr-logo{ margin-top: 37px; }
+.gdlr-logo{ margin-bottom: 41px; }
 .gdlr-navigation-wrapper{ margin-top: 42px; }
-h1, h2, h3, h4, h5, h6{ font-family: "Raleway"; }
+h1, h2, h3, h4, h5, h6{ font-family: "Open Sans"; }
 body, input, textarea, select{ font-family: "Montserrat"; }
 .gdlr-navigation{ font-family: "Raleway"; }
 .gdlr-slider-item{ font-family: "Montserrat"; }
@@ -41,10 +41,10 @@ body{ background-color: #dddddd; }
 h1, h2, h3, h4, h5, h6, .gdlr-title, .gdlr-title a{ color: #454545; }
 .gdlr-item-title-wrapper .gdlr-item-title{ color: #292929; border-color: #292929; }
 .gdlr-item-title-divider{ border-color: #333333; }
-.gdlr-item-title-wrapper .gdlr-item-caption{ color: #9b9b9b; }
-body{ color: #a4a4a4; }
-a{ color: #72d5cd; }
-a:hover{ color: #82d6cc; }
+.gdlr-item-title-wrapper .gdlr-item-caption{ color: #239be0; }
+body{ color: #262626; }
+a{ color: #239be0; }
+a:hover{ color: #2174d3; }
 body *{ border-color: #e9e9e9; }
 .page-not-found-block{ background-color: #d65938; }
 .page-not-found-block{ color: #ffffff; }
@@ -69,8 +69,8 @@ body *{ border-color: #e9e9e9; }
 .gdlr-box-with-icon-item > i, .gdlr-box-with-icon-item .box-with-icon-title{ color: #585858; }
 .gdlr-box-with-icon-item{ color: #929292; }
 .gdlr-button, .gdlr-button:hover, input[type="button"], input[type="submit"], .gdlr-top-menu > .gdlr-mega-menu .sf-mega a.gdlr-button{ color: #ffffff; }
-.gdlr-button, input[type="button"], input[type="submit"]{ background-color: #72d5cd; }.gdlr-lms-authorize-payment input.submit{ background-color: #72d5cd !important; }
-.gdlr-button{ border-color: #66b0ab; }
+.gdlr-button, input[type="button"], input[type="submit"]{ background-color: #239be0; }.gdlr-lms-authorize-payment input.submit{ background-color: #239be0 !important; }
+.gdlr-button{ border-color: #239be0; }
 .column-service-title{ color: #292929; }
 .column-service-content{ color: #909090; }
 .column-service-icon i{ color: #72d5cd; }
@@ -198,11 +198,11 @@ html .woocommerce div.product .woocommerce-tabs ul.tabs li, html .woocommerce #c
 html .woocommerce .widget_shopping_cart .total, html .woocommerce-page .widget_shopping_cart .total { border-top: 2px solid #e5e5e5; }html .woocommerce table.cart a.remove:hover, html .woocommerce #content table.cart a.remove:hover, html .woocommerce-page table.cart a.remove:hover,html .woocommerce-page #content table.cart a.remove:hover, html #payment div.payment_box, html .woocommerce-page #payment div.payment_box { background: #e5e5e5; }
 html .woocommerce table.shop_table tfoot td, html .woocommerce table.shop_table tfoot th, html .woocommerce-page table.shop_table tfoot td,html .woocommerce-page table.shop_table tfoot th, .cart-subtotal th, .shipping th , .total th, html .woocommerce table.shop_attributes .alt th,html .woocommerce-page table.shop_attributes .alt th, html .woocommerce ul.products li.product .price, html.woocommerce-page ul.products li.product .price { color: #333333; }
 html .woocommerce ul.products li.product .price del, html .woocommerce-page ul.products li.product .price del,html .woocommerce table.cart a.remove, html .woocommerce #content table.cart a.remove, html .woocommerce-page table.cart a.remove,html .woocommerce-page #content table.cart a.remove { color: #888888; }
-html .woocommerce .quantity .plus, html .woocommerce .quantity .minus, html .woocommerce #content .quantity .plus, html .woocommerce #content .quantity .minus, 
-												html .woocommerce-page .quantity .plus, html .woocommerce-page .quantity .minus, html .woocommerce-page #content .quantity .plus, 
+html .woocommerce .quantity .plus, html .woocommerce .quantity .minus, html .woocommerce #content .quantity .plus, html .woocommerce #content .quantity .minus,
+												html .woocommerce-page .quantity .plus, html .woocommerce-page .quantity .minus, html .woocommerce-page #content .quantity .plus,
 												html .woocommerce-page #content .quantity .minus { border: 1px solid #a0a0a0; }
-html .woocommerce .quantity .plus, html .woocommerce .quantity .minus, html .woocommerce #content .quantity .plus, html .woocommerce #content .quantity .minus, 
-												html .woocommerce-page .quantity .plus, html .woocommerce-page .quantity .minus, html .woocommerce-page #content .quantity .plus, 
+html .woocommerce .quantity .plus, html .woocommerce .quantity .minus, html .woocommerce #content .quantity .plus, html .woocommerce #content .quantity .minus,
+												html .woocommerce-page .quantity .plus, html .woocommerce-page .quantity .minus, html .woocommerce-page #content .quantity .plus,
 												html .woocommerce-page #content .quantity .minus { color: #ffffff; }
 html .woocommerce .quantity .plus, html .woocommerce #content .quantity .plus,  html .woocommerce-page .quantity .plus,html .woocommerce-page #content .quantity .plus, html .woocommerce .quantity .plus:hover, html .woocommerce #content .quantity .plus:hover,html .woocommerce-page .quantity .plus:hover,  html .woocommerce-page #content .quantity .plus:hover{ background: #9a9a9a; }
 html .woocommerce .quantity .minus, html .woocommerce #content .quantity .minus,  html .woocommerce-page .quantity .minus,html .woocommerce-page #content .quantity .minus, html .woocommerce .quantity .minus:hover, html .woocommerce #content .quantity .minus:hover,html .woocommerce-page .quantity .minus:hover,  html .woocommerce-page #content .quantity .minus:hover{ background: #b6b6b6; }
