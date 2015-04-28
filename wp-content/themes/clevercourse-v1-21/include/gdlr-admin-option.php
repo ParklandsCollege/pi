@@ -1,11 +1,11 @@
 <?php
-	/*	
+	/*
 	*	Goodlayers Framework File
 	*	---------------------------------------------------------------------
-	*	This file contains the admin option setting 
+	*	This file contains the admin option setting
 	*	---------------------------------------------------------------------
 	*/
-	
+
 	// save the style-custom.css file when the admin option is saved
 	add_action('gdlr_save_' + THEME_SLUG, 'gdlr_generate_style_custom');
 	if( !function_exists('gdlr_generate_style_custom') ){
@@ -16,25 +16,25 @@
 			if( is_multisite() && get_current_blog_id() > 1 ){
 				$file_url = get_template_directory() . '/stylesheet/style-custom' . get_current_blog_id() . '.css';
 			}
-			
+
 			// open file
 			$file_stream = @fopen($file_url, 'w');
 			if( !$file_stream ){
 				$ret = array(
-					'status'=>'failed', 
+					'status'=>'failed',
 					'message'=> '<span class="head">' . __('Cannot Generate Custom File', 'gdlr_translate') . '</span> ' .
 						__('Please try changing the style-custom.css file permission to 775 or 777 for this.' ,'gdlr_translate')
-				);	
-				
-				die(json_encode($ret));				
+				);
+
+				die(json_encode($ret));
 			}
-			
+
 			// write file content
 			$theme_option = get_option(THEME_SHORT_NAME . '_admin_option', array());
-			
+
 			// for updating google font list to use on front end
-			global $gdlr_font_controller; $google_font_list = array(); 
-			
+			global $gdlr_font_controller; $google_font_list = array();
+
 			foreach( $options as $menu_key => $menu ){
 				foreach( $menu['options'] as $submenu_key => $submenu ){
 					if( !empty($submenu['options']) ){
@@ -42,7 +42,7 @@
 							if( !empty($option['selector']) ){
 								// prevents warning message
 								$option['data-type'] = (empty($option['data-type']))? 'color': $option['data-type'];
-								
+
 								if( !empty($theme_option[$option_slug]) ){
 									$value = gdlr_check_option_data_type($theme_option[$option_slug], $option['data-type']);
 								}else{
@@ -51,7 +51,7 @@
 								if($value){
 									fwrite( $file_stream, str_replace('#gdlr#', $value, $option['selector']) . "\r\n" );
 								}
-								
+
 								// updating google font list
 								if( $menu_key == 'font-settings' && $submenu_key == 'font-family' ){
 									if( !empty($gdlr_font_controller->google_font_list[$theme_option[$option_slug]]) ){
@@ -63,25 +63,25 @@
 					}
 				}
 			}
-			
+
 			// update google font list
-			update_option(THEME_SHORT_NAME . '_google_font_list', $google_font_list);			
-			
+			update_option(THEME_SHORT_NAME . '_google_font_list', $google_font_list);
+
 			$skins = json_decode($theme_option['skin-settings'], true);
 			$skins = empty($skins)? array(): $skins;
 			foreach($skins as $skin){
 				$class = '.' . gdlr_string_to_class($skin['skin-title']);
 
-				$style  = '#class#, #class# .gdlr-skin-content{ color: ' . $skin['content'] . '; }' . "\r\n"; 
-				$style .= '#class# i, #class# .gdlr-flex-prev, #class# .gdlr-flex-next{ color: ' . $skin['icon'] . '; }' . "\r\n"; 
+				$style  = '#class#, #class# .gdlr-skin-content{ color: ' . $skin['content'] . '; }' . "\r\n";
+				$style .= '#class# i, #class# .gdlr-flex-prev, #class# .gdlr-flex-next{ color: ' . $skin['icon'] . '; }' . "\r\n";
 				$style .= '#class# h1, #class# h2, #class# h3, #class# h4, #class# h5, #class# h6, ';
-				$style .= '#class# .gdlr-skin-title, #class# .gdlr-skin-title a{ color: ' . $skin['title'] . '; }' . "\r\n"; 
-				$style .= '#class# .gdlr-skin-title a:hover{ color: ' . $skin['title-hover'] . '; }' . "\r\n"; 
-				$style .= '#class# .gdlr-skin-info, #class# .gdlr-skin-info a, #class# .gdlr-skin-info a:hover{ color: ' . $skin['info'] . '; }' . "\r\n"; 
-				$style .= '#class# a, #class# .gdlr-skin-link, #class# .gdlr-skin-link-color{ color: ' . $skin['link'] . '; }' . "\r\n"; 
-				$style .= '#class# a:hover, #class# .gdlr-skin-link:hover{ color: ' . $skin['link-hover'] . '; }' . "\r\n"; 
-				$style .= '#class# .gdlr-skin-box, #class# .gdlr-column-service-item .gdlr-skin-box, #class# .gdlr-flex-prev, #class# .gdlr-flex-next{ background-color: ' . $skin['element-background'] . '; }' . "\r\n"; 
-				$style .= '#class# *, #class# .gdlr-skin-border{ border-color: ' . $skin['border'] . '; }' . "\r\n"; 
+				$style .= '#class# .gdlr-skin-title, #class# .gdlr-skin-title a{ color: ' . $skin['title'] . '; }' . "\r\n";
+				$style .= '#class# .gdlr-skin-title a:hover{ color: ' . $skin['title-hover'] . '; }' . "\r\n";
+				$style .= '#class# .gdlr-skin-info, #class# .gdlr-skin-info a, #class# .gdlr-skin-info a:hover{ color: ' . $skin['info'] . '; }' . "\r\n";
+				$style .= '#class# a, #class# .gdlr-skin-link, #class# .gdlr-skin-link-color{ color: ' . $skin['link'] . '; }' . "\r\n";
+				$style .= '#class# a:hover, #class# .gdlr-skin-link:hover{ color: ' . $skin['link-hover'] . '; }' . "\r\n";
+				$style .= '#class# .gdlr-skin-box, #class# .gdlr-column-service-item .gdlr-skin-box, #class# .gdlr-flex-prev, #class# .gdlr-flex-next{ background-color: ' . $skin['element-background'] . '; }' . "\r\n";
+				$style .= '#class# *, #class# .gdlr-skin-border{ border-color: ' . $skin['border'] . '; }' . "\r\n";
 				$style .= '#class# .gdlr-button, #class# .gdlr-button:hover, #class# input[type="button"], #class# input[type="submit"]{ ';
 				$style .= 'color: ' . $skin['button-text'] . '; background-color: ' . $skin['button-background'] . ';  }' . "\r\n";
 				$style = str_replace('#class#', $class, $style);
@@ -92,7 +92,7 @@
 			if(!empty($end_of_file)){
 				fwrite($file_stream, $end_of_file);
 			}
-			
+
 			if( !empty($theme_option['additional-style']) ){
 				fwrite($file_stream, $theme_option['additional-style']);
 			}
@@ -100,17 +100,17 @@
 			// close file after finish writing
 			fclose($file_stream);
 		}
-	}	
-	
+	}
+
 	// create the main admin option
 	add_action('after_setup_theme', 'gdlr_create_admin_option');
 	if( !function_exists('gdlr_create_admin_option') ){
-	
+
 		function gdlr_create_admin_option(){
 			global $theme_option, $gdlr_sidebar_controller;
-		
-			new gdlr_admin_option( 
-				
+
+			new gdlr_admin_option(
+
 				// admin option attribute
 				array(
 					'page_title' => THEME_FULL_NAME . ' ' . __('Option', 'gdlr_translate'),
@@ -119,23 +119,23 @@
 					'save_option' => THEME_SHORT_NAME . '_admin_option',
 					'role' => 'edit_theme_options'
 				),
-					  
+
 				// admin option setting
 				apply_filters('gdlr_admin_option',
 					array(
-					
+
 						// general menu
 						'general' => array(
 							'title' => __('General', 'gdlr_translate'),
 							'icon' => GDLR_PATH . '/include/images/icon-general.png',
 							'options' => array(
-								
+
 								'page-style' => array(
 									'title' => __('Page Style', 'gdlr_translate'),
 									'options' => array(
 										'enable-boxed-style' => array(
 											'title' => __('Container Style', 'gdlr_translate'),
-											'type' => 'combobox',	
+											'type' => 'combobox',
 											'options' => array(
 												'full-style' => __('Full Style', 'gdlr_translate'),
 												'boxed-style' => __('Boxed Style', 'gdlr_translate')
@@ -145,27 +145,27 @@
 											'title' => __('Background Image', 'gdlr_translate'),
 											'type' => 'upload',
 											'wrapper-class'=> 'enable-boxed-style-wrapper boxed-style-wrapper'
-										),	
+										),
 										'container-width' => array(
 											'title' => __('Container Width', 'gdlr_translate'),
-											'type' => 'text',	
-											'default' => '1140', 
+											'type' => 'text',
+											'default' => '1140',
 											'data-type' => 'pixel',
 											'selector' => 'html.ltie9 body, body{ min-width: #gdlr#; } .container{ max-width: #gdlr#; } ' .
 												'.gdlr-caption-wrapper .gdlr-caption-inner{ max-width: #gdlr#; }'
 										),
 										'boxed-style-frame' => array(
 											'title' => __('Boxed Style Frame Width', 'gdlr_translate'),
-											'type' => 'text',	
+											'type' => 'text',
 											'data-type' => 'pixel',
 											'default' => '1220',
 											'selector' => '.body-wrapper.gdlr-boxed-style{ max-width: #gdlr#; overflow: hidden; } ' .
-												'.body-wrapper.gdlr-boxed-style .gdlr-header-wrapper{ max-width: #gdlr#; margin: 0px auto; }', 
+												'.body-wrapper.gdlr-boxed-style .gdlr-header-wrapper{ max-width: #gdlr#; margin: 0px auto; }',
 											'description' => __('Default value is container width + 80', 'gdlr_translate')
 										),
 										'enable-responsive-mode' => array(
 											'title' => __('Enable Responsive', 'gdlr_translate'),
-											'type' => 'checkbox',	
+											'type' => 'checkbox',
 											'default' => 'enable'
 										),
 										'sidebar-size' => array(
@@ -180,7 +180,7 @@
 											),
 											'default' => '4',
 											'descripton' => '1 column equals to around 80px',
-										),		
+										),
 										'both-sidebar-size' => array(
 											'title' => __('Both Sidebar Size', 'gdlr_translate'),
 											'type' => 'combobox',
@@ -190,51 +190,51 @@
 											),
 											'default' => '3',
 											'descripton' => '1 column equals to around 80px',
-										),	
+										),
 										'date-format' => array(
 											'title' => __('Date Format', 'gdlr_translate'),
-											'type' => 'text',				
+											'type' => 'text',
 											'default'=>'d M Y',
 											'description'=>__('See more details about the date format here. http://codex.wordpress.org/Formatting_Date_and_Time', 'gdlr_translate')
-										),	
+										),
 										'video-ratio' => array(
 											'title' => __('Default Video Ratio', 'gdlr_translate'),
-											'type' => 'text',				
+											'type' => 'text',
 											'default'=>'16/9',
 											'description'=>__('Please only fill number/number as default video ratio', 'gdlr_translate')
-										),		
+										),
 										'additional-style' => array(
 											'title' => __('Additional Style', 'gdlr_translate'),
-											'type' => 'textarea',	
+											'type' => 'textarea',
 											'class' => 'full-width',
-										),	
+										),
 										'additional-script' => array(
 											'title' => __('Additional Script ( no &lt;script> tag ) ', 'gdlr_translate'),
-											'type' => 'textarea',	
+											'type' => 'textarea',
 											'class' => 'full-width',
-										),											
+										),
 									)
 								),
-								
+
 								'analytics-favicon' => array(
 									'title' => __('Analytics / Favicon', 'gdlr_translate'),
-									'options' => array(			
+									'options' => array(
 										'favicon-id' => array(
 											'title' => __('Upload Favicon ( .ico file )', 'gdlr_translate'),
 											'button' => __('Select Icon', 'gdlr_translate'),
 											'type' => 'upload'
-										),	
+										),
 										'google-analytics' => array(
 											'title' => __('Analytic Script ( with the &lt;script> tag )', 'gdlr_translate'),
-											'type' => 'textarea',	
+											'type' => 'textarea',
 											'class' => 'full-width',
-										),		
+										),
 									)
 								),
-								
-								'blog-style' => array(),	
-								
-								'portfolio-style' => array(),		
+
+								'blog-style' => array(),
+
+								'portfolio-style' => array(),
 
 								'search-archive-style' => array(
 									'title' => __('Search - Archive Style', 'gdlr_translate'),
@@ -244,24 +244,24 @@
 											'type' => 'radioimage',
 											'options' => array(
 												'no-sidebar'=>GDLR_PATH . '/include/images/no-sidebar.png',
-												'both-sidebar'=>GDLR_PATH . '/include/images/both-sidebar.png', 
+												'both-sidebar'=>GDLR_PATH . '/include/images/both-sidebar.png',
 												'right-sidebar'=>GDLR_PATH . '/include/images/right-sidebar.png',
 												'left-sidebar'=>GDLR_PATH . '/include/images/left-sidebar.png'
 											),
-											'default' => 'no-sidebar'							
+											'default' => 'no-sidebar'
 										),
 										'archive-sidebar-left' => array(
 											'title' => __('Search - Archive Sidebar Left', 'gdlr_translate'),
 											'type' => 'combobox',
-											'options' => $gdlr_sidebar_controller->get_sidebar_array(),		
-											'wrapper-class'=>'left-sidebar-wrapper both-sidebar-wrapper archive-sidebar-template-wrapper',											
+											'options' => $gdlr_sidebar_controller->get_sidebar_array(),
+											'wrapper-class'=>'left-sidebar-wrapper both-sidebar-wrapper archive-sidebar-template-wrapper',
 										),
 										'archive-sidebar-right' => array(
 											'title' => __('Search - Archive Sidebar Right', 'gdlr_translate'),
 											'type' => 'combobox',
 											'options' => $gdlr_sidebar_controller->get_sidebar_array(),
 											'wrapper-class'=>'right-sidebar-wrapper both-sidebar-wrapper archive-sidebar-template-wrapper',
-										),		
+										),
 										'archive-blog-style' => array(
 											'title' => __('Search - Archive Blog Style', 'gdlr_translate'),
 											'type' => 'combobox',
@@ -273,11 +273,11 @@
 												'blog-medium' => __('Blog Medium', 'gdlr_translate'),
 												'blog-full' => __('Blog Full', 'gdlr_translate'),
 											),
-											'default' => 'blog-1-3'							
-										),			
+											'default' => 'blog-1-3'
+										),
 										'archive-num-excerpt'=> array(
 											'title'=> __('Search - Archive Num Excerpt (Word)' ,'gdlr_translate'),
-											'type'=> 'text',	
+											'type'=> 'text',
 											'default'=> '25',
 											'description'=> __('This is a number of word (decided by spaces) that you want to show on the post excerpt. <strong>Use 0 to hide the excerpt, -1 to show full posts and use the wordpress more tag</strong>.', 'gdlr_translate')
 										),
@@ -287,7 +287,7 @@
 											'options'=> gdlr_get_thumbnail_list(),
 											'default'=> 'small-grid-size',
 											'description'=> __('Only effects to <strong>standard and gallery post format</strong>','gdlr_translate')
-										),		
+										),
 										'archive-portfolio-style'=> array(
 											'title'=> __('Archive Portfolio Style' ,'gdlr_translate'),
 											'type'=> 'combobox',
@@ -295,7 +295,7 @@
 												'classic-portfolio' => __('Portfolio Classic Style', 'gdlr_translate'),
 												'modern-portfolio' => __('Portfolio Modern Style', 'gdlr_translate')
 											),
-										),							
+										),
 										'archive-portfolio-size'=> array(
 											'title'=> __('Portfolio Size' ,'gdlr_translate'),
 											'type'=> 'combobox',
@@ -307,10 +307,10 @@
 											),
 											'default'=>'1/3',
 											'wrapper-class'=> 'classic-portfolio-wrapper modern-portfolio-wrapper archive-portfolio-style-wrapper'
-										),	
+										),
 										'archive-portfolio-num-excerpt'=> array(
 											'title'=> __('Portfolio Num Excerpt (Word)' ,'gdlr_translate'),
-											'type'=> 'text',	
+											'type'=> 'text',
 											'default'=> '25',
 											'wrapper-class'=> 'classic-portfolio-wrapper archive-portfolio-style-wrapper',
 											'description'=> __('This is a number of word (decided by spaces) that you want to show on the post excerpt. <strong>Use 0 to hide the excerpt, -1 to show full posts and use the wordpress more tag</strong>.', 'gdlr_translate')
@@ -321,14 +321,14 @@
 											'options'=> gdlr_get_thumbnail_list(),
 											'default'=> 'small-grid-size',
 											'description'=> __('Only effects to <strong>standard and gallery post format</strong>','gdlr_translate')
-										),	
-										
+										),
+
 									)
-								),			
+								),
 
 								'woocommerce-style' => array(
 									'title' => __('Woocommerce Style', 'gdlr_translate'),
-									'options' => array(	
+									'options' => array(
 										'all-products-per-row' => array(
 											'title' => __('Products Per Row', 'gdlr_translate'),
 											'type' => 'combobox',
@@ -339,57 +339,57 @@
 												'4'=> '4',
 												'5'=> '5'
 											),
-											'default' => '3'							
+											'default' => '3'
 										),
 										'all-products-sidebar' => array(
 											'title' => __('All Products Sidebar', 'gdlr_translate'),
 											'type' => 'radioimage',
 											'options' => array(
 												'no-sidebar'=>GDLR_PATH . '/include/images/no-sidebar.png',
-												'both-sidebar'=>GDLR_PATH . '/include/images/both-sidebar.png', 
+												'both-sidebar'=>GDLR_PATH . '/include/images/both-sidebar.png',
 												'right-sidebar'=>GDLR_PATH . '/include/images/right-sidebar.png',
 												'left-sidebar'=>GDLR_PATH . '/include/images/left-sidebar.png'
 											),
-											'default' => 'no-sidebar'							
+											'default' => 'no-sidebar'
 										),
 										'all-products-sidebar-left' => array(
 											'title' => __('All Products Sidebar Left', 'gdlr_translate'),
 											'type' => 'combobox',
-											'options' => $gdlr_sidebar_controller->get_sidebar_array(),		
-											'wrapper-class'=>'left-sidebar-wrapper both-sidebar-wrapper all-products-sidebar-wrapper',											
+											'options' => $gdlr_sidebar_controller->get_sidebar_array(),
+											'wrapper-class'=>'left-sidebar-wrapper both-sidebar-wrapper all-products-sidebar-wrapper',
 										),
 										'all-products-sidebar-right' => array(
 											'title' => __('All Products Sidebar Right', 'gdlr_translate'),
 											'type' => 'combobox',
 											'options' => $gdlr_sidebar_controller->get_sidebar_array(),
 											'wrapper-class'=>'right-sidebar-wrapper both-sidebar-wrapper all-products-sidebar-wrapper',
-										),		
+										),
 										'single-products-sidebar' => array(
 											'title' => __('Single Products Sidebar', 'gdlr_translate'),
 											'type' => 'radioimage',
 											'options' => array(
 												'no-sidebar'=>GDLR_PATH . '/include/images/no-sidebar.png',
-												'both-sidebar'=>GDLR_PATH . '/include/images/both-sidebar.png', 
+												'both-sidebar'=>GDLR_PATH . '/include/images/both-sidebar.png',
 												'right-sidebar'=>GDLR_PATH . '/include/images/right-sidebar.png',
 												'left-sidebar'=>GDLR_PATH . '/include/images/left-sidebar.png'
 											),
-											'default' => 'no-sidebar'							
+											'default' => 'no-sidebar'
 										),
 										'single-products-sidebar-left' => array(
 											'title' => __('Single Products Sidebar Left', 'gdlr_translate'),
 											'type' => 'combobox',
-											'options' => $gdlr_sidebar_controller->get_sidebar_array(),		
-											'wrapper-class'=>'left-sidebar-wrapper both-sidebar-wrapper single-products-sidebar-wrapper',											
+											'options' => $gdlr_sidebar_controller->get_sidebar_array(),
+											'wrapper-class'=>'left-sidebar-wrapper both-sidebar-wrapper single-products-sidebar-wrapper',
 										),
 										'single-products-sidebar-right' => array(
 											'title' => __('Single products Sidebar Right', 'gdlr_translate'),
 											'type' => 'combobox',
 											'options' => $gdlr_sidebar_controller->get_sidebar_array(),
 											'wrapper-class'=>'right-sidebar-wrapper both-sidebar-wrapper single-products-sidebar-wrapper',
-										),											
+										),
 									)
-								),									
-								
+								),
+
 								'footer-style' => array(
 									'title' => __('Footer - Copyright Style', 'gdlr_translate'),
 									'options' => array(
@@ -397,13 +397,13 @@
 											'title' => __('Show Footer', 'gdlr_translate'),
 											'type' => 'checkbox',
 											'default' => 'enable'
-										),											
+										),
 										'footer-layout' => array(
 											'title' => __('Footer Layout', 'gdlr_translate'),
 											'type' => 'radioimage',
 											'options' => array(
 												'1'=>GDLR_PATH . '/include/images/footer-style1.png',
-												'2'=>GDLR_PATH . '/include/images/footer-style2.png', 
+												'2'=>GDLR_PATH . '/include/images/footer-style2.png',
 												'3'=>GDLR_PATH . '/include/images/footer-style3.png',
 												'4'=>GDLR_PATH . '/include/images/footer-style4.png',
 												'5'=>GDLR_PATH . '/include/images/footer-style5.png',
@@ -417,7 +417,7 @@
 											'default' => 'enable'
 										),
 									)
-								),		
+								),
 
 								'import-export-option' => array(
 									'title' => __('Import/Export Option', 'gdlr_translate'),
@@ -425,20 +425,20 @@
 										'export-option' => array(
 											'title' => __('Export Option', 'gdlr_translate'),
 											'type' => 'custom',
-											'option' => 
+											'option' =>
 												'<input type="button" id="gdlr-export" class="gdl-button" value="' . __('Export', 'gdlr_translate') . '" />' .
 												'<textarea class="full-width"></textarea>'
 										),
 										'import-option' => array(
 											'title' => __('Import Option', 'gdlr_translate'),
 											'type' => 'custom',
-											'option' => 
+											'option' =>
 												'<input type="button" id="gdlr-import" class="gdl-button" value="' . __('Import', 'gdlr_translate') . '" />' .
 												'<textarea class="full-width"></textarea>'
-										),										
+										),
 									)
-								),									
-							
+								),
+
 							)
 						),
 
@@ -447,24 +447,24 @@
 							'title' => __('Overall Elements', 'gdlr_translate'),
 							'icon' => GDLR_PATH . '/include/images/icon-overall-elements.png',
 							'options' => array(
-	
+
 								'top-bar' => array(
 									'title' => __('Top Bar', 'gdlr_translate'),
 									'options' => array(
 										'enable-top-bar' => array(
 											'title' => __('Enable Top Bar', 'gdlr_translate'),
-											'type' => 'checkbox',									
+											'type' => 'checkbox',
 										),
 										'top-bar-right-text' => array(
 											'title' => __('Top Bar Left Text', 'gdlr_translate'),
-											'type' => 'textarea',									
+											'type' => 'textarea',
 										),
 									)
 								),
-	
+
 								'header-logo' => array(
 									'title' => __('Header - Logo', 'gdlr_translate'),
-									'options' => array(									
+									'options' => array(
 										'enable-float-menu' => array(
 											'title' => __('Enable Float Menu', 'gdlr_translate'),
 											'type' => 'checkbox'
@@ -481,7 +481,7 @@
 											'data-type' => 'pixel',
 											'selector' => '.gdlr-logo{ max-width: #gdlr#; }',
 											'description' => __('You may upload 2x size image and limit the logo width for retina display', 'gdlr_translate')
-										),											
+										),
 										'logo-top-margin' => array(
 											'title' => __('Logo Top Margin', 'gdlr_translate'),
 											'type' => 'text',
@@ -502,133 +502,133 @@
 											'default' => '42',
 											'selector' => '.gdlr-navigation-wrapper{ margin-top: #gdlr#; }',
 											'data-type' => 'pixel'
-										),										
+										),
 									)
-								),		
+								),
 
 								'page-title-background' => array(
 									'title' => __('Page Title Background', 'gdlr_translate'),
-									'options' => array(		
+									'options' => array(
 										'default-page-title' => array(
 											'title' => __('Default Page Title Background', 'gdlr_translate'),
-											'type' => 'upload',	
+											'type' => 'upload',
 											'selector' => '.gdlr-page-title-wrapper { background-image: url(\'#gdlr#\'); }',
 											'data-type' => 'upload'
-										),	
+										),
 										'default-post-title-background' => array(
 											'title' => __('Default Post Title Background', 'gdlr_translate'),
-											'type' => 'upload',	
+											'type' => 'upload',
 											'selector' => 'body.single .gdlr-page-title-wrapper { background-image: url(\'#gdlr#\'); }',
 											'data-type' => 'upload'
 										),
 										'default-portfolio-title-background' => array(
 											'title' => __('Default Portfolio Title Background', 'gdlr_translate'),
-											'type' => 'upload',	
+											'type' => 'upload',
 											'selector' => 'body.single-portfolio .gdlr-page-title-wrapper { background-image: url(\'#gdlr#\'); }',
 											'data-type' => 'upload'
 										),
 										'default-search-archive-title-background' => array(
 											'title' => __('Default Search Archive Title Background', 'gdlr_translate'),
-											'type' => 'upload',	
+											'type' => 'upload',
 											'selector' => 'body.archive .gdlr-page-title-wrapper, body.search .gdlr-page-title-wrapper { background-image: url(\'#gdlr#\'); }',
 											'data-type' => 'upload'
 										),
 										'default-404-title-background' => array(
 											'title' => __('Default 404 Title Background', 'gdlr_translate'),
-											'type' => 'upload',	
+											'type' => 'upload',
 											'selector' => 'body.error404 .gdlr-page-title-wrapper { background-image: url(\'#gdlr#\'); }',
 											'data-type' => 'upload'
 										),
-									)					
-								),								
-								
+									)
+								),
+
 								'header-social' => array(),
-								
+
 								'social-shares' => array(),
-								
+
 								'copyright' => array(
 									'title' => __('Copyright', 'gdlr_translate'),
-									'options' => array(		
-									
+									'options' => array(
+
 										'copyright-left-text' => array(
 											'title' => __('Copyright Left Text', 'gdlr_translate'),
-											'type' => 'textarea',	
+											'type' => 'textarea',
 											'class' => 'full-width',
-										),		
+										),
 										'copyright-right-text' => array(
 											'title' => __('Copyright Right Text', 'gdlr_translate'),
-											'type' => 'textarea',	
+											'type' => 'textarea',
 											'class' => 'full-width',
-										),											
-									)					
+										),
+									)
 								)
-							)				
+							)
 						),
-						
+
 						// font setting menu
 						'font-settings' => array(
 							'title' => __('Font Setting', 'gdlr_translate'),
 							'icon' => GDLR_PATH . '/include/images/icon-font-settings.png',
 							'options' => array(
 
-								'font-family' => array(),								
+								'font-family' => array(),
 
 								'font-size' => array(
 									'title' => __('Font Size', 'gdlr_translate'),
 									'options' => array(
-										
+
 										'content-font-size' => array(
 											'title' => __('Content Size', 'gdlr_translate'),
 											'type' => 'sliderbar',
 											'default' => '14',
 											'selector' => 'body{ font-size: #gdlr#; }',
-											'data-type' => 'pixel'											
-										),				
+											'data-type' => 'pixel'
+										),
 										'h1-font-size' => array(
 											'title' => __('H1 Size', 'gdlr_translate'),
 											'type' => 'sliderbar',
 											'default' => '30',
 											'selector' => 'h1{ font-size: #gdlr#; }',
-											'data-type' => 'pixel'											
+											'data-type' => 'pixel'
 										),
 										'h2-font-size' => array(
 											'title' => __('H2 Size', 'gdlr_translate'),
 											'type' => 'sliderbar',
 											'default' => '25',
 											'selector' => 'h2{ font-size: #gdlr#; }',
-											'data-type' => 'pixel'											
+											'data-type' => 'pixel'
 										),
 										'h3-font-size' => array(
 											'title' => __('H3 Size', 'gdlr_translate'),
 											'type' => 'sliderbar',
 											'default' => '20',
 											'selector' => 'h3{ font-size: #gdlr#; }',
-											'data-type' => 'pixel'											
+											'data-type' => 'pixel'
 										),
 										'h4-font-size' => array(
 											'title' => __('H4 Size', 'gdlr_translate'),
 											'type' => 'sliderbar',
 											'default' => '18',
 											'selector' => 'h4{ font-size: #gdlr#; }',
-											'data-type' => 'pixel'											
+											'data-type' => 'pixel'
 										),
 										'h5-font-size' => array(
 											'title' => __('H5 Size', 'gdlr_translate'),
 											'type' => 'sliderbar',
 											'default' => '16',
 											'selector' => 'h5{ font-size: #gdlr#; }',
-											'data-type' => 'pixel'											
+											'data-type' => 'pixel'
 										),
 										'h6-font-size' => array(
 											'title' => __('H6 Size', 'gdlr_translate'),
 											'type' => 'sliderbar',
 											'default' => '15',
 											'selector' => 'h6{ font-size: #gdlr#; }',
-											'data-type' => 'pixel'											
+											'data-type' => 'pixel'
 										),
-										
+
 									)
-								),								
+								),
 
 								'upload-font' => array(
 									'title' => __('Upload Font', 'gdlr_translate'),
@@ -637,17 +637,17 @@
 											'type' => 'uploadfont'
 										)
 									)
-								),									
-								
-							)					
+								),
+
+							)
 						),
-							
+
 						// elements color menu
 						'elements-color' => array(
 							'title' => __('Elements Color', 'gdlr_translate'),
 							'icon' => GDLR_PATH . '/include/images/icon-elements-color.png',
 							'options' => array(
-							
+
 								'skin-settings' => array(
 									'title' => __('Cutom Skin', 'gdlr_translate'),
 									'options' => array(
@@ -667,13 +667,13 @@
 												'button-text'=>__('Button Text Color', 'gdlr_translate'),
 												'button-background'=>__('Button Background Color', 'gdlr_translate'),
 											)
-										),	
+										),
 									)
-								),							
+								),
 
 								'top-bar-color' => array(
 									'title' => __('Top Bar / Header Bg', 'gdlr_translate'),
-									'options' => array(						
+									'options' => array(
 										'top-bar-text-color' => array(
 											'title' => __('Top Bar Text', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -699,31 +699,31 @@
 											'selector'=> '.gdlr-header-inner, ' .
 												'.header-style-transparent .gdlr-fixed-header .gdlr-header-inner{ background-color: #gdlr#; }' .
 												'@media only screen and (max-width: 767px) { .body-wrapper.header-style-transparent .gdlr-header-inner{ background-color: #gdlr#; } }'
-												
+
 										),
 										'main-navigation-text' => array(
 											'title' => __('Main Navigation Text', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#7f7f7f',
-											'selector'=> '.gdlr-main-menu > li > a, ' . 
+											'selector'=> '.gdlr-main-menu > li > a, ' .
 												'.header-style-transparent .gdlr-fixed-header .gdlr-header-inner .gdlr-main-menu > li > a{ color: #gdlr#; }'
-										),	
+										),
 										'float-navigation-bottom-border' => array(
 											'title' => __('Float Menu Bottom Border', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#f5f5f5',
 											'selector'=> '.gdlr-fixed-header{ border-bottom: 2px solid #gdlr#; }'
-										),	
+										),
 										'main-navigation-text-hover' => array(
 											'title' => __('Main Navigation Text Hover/Current', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#555555',
 											'selector'=> '.gdlr-main-menu > li:hover > a, .gdlr-main-menu > li.current-menu-item > a, ' .
-												'.gdlr-main-menu > li.current-menu-ancestor > a, .gdlr-nav-search-form-button i, ' . 
-												'.header-style-transparent .gdlr-fixed-header .gdlr-header-inner .gdlr-main-menu > li:hover > a, ' . 
+												'.gdlr-main-menu > li.current-menu-ancestor > a, .gdlr-nav-search-form-button i, ' .
+												'.header-style-transparent .gdlr-fixed-header .gdlr-header-inner .gdlr-main-menu > li:hover > a, ' .
 												'.header-style-transparent .gdlr-fixed-header .gdlr-header-inner .gdlr-main-menu > li.current-menu-item > a, ' .
 												'.header-style-transparent .gdlr-fixed-header .gdlr-header-inner .gdlr-main-menu > li.current-menu-ancestor > a{ color: #gdlr#; opacity: 1; filter: alpha(opacity=100); }'
-										),		
+										),
 										'menu-search-background' => array(
 											'title' => __('Menu Search Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -737,7 +737,7 @@
 											'selector'=> '.gdlr-nav-search-form i, .gdlr-nav-search-form input[type="text"]{ color: #gdlr#; }'
 										),
 									)
-								),		
+								),
 
 								'main-navigation-color' => array(
 									'title' => __('Main Menu / Search', 'gdlr_translate'),
@@ -746,15 +746,15 @@
 											'title' => __('Sub Menu Top Border', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#1c1c1c',
-											'selector'=> '.gdlr-main-menu > .gdlr-normal-menu .sub-menu, .gdlr-main-menu > .gdlr-mega-menu ' . 
+											'selector'=> '.gdlr-main-menu > .gdlr-normal-menu .sub-menu, .gdlr-main-menu > .gdlr-mega-menu ' .
 												'.sf-mega{ border-top-color: #gdlr#; }'
-										),			
+										),
 										'sub-menu-background' => array(
 											'title' => __('Sub Menu Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#1f1f1f',
 											'selector'=> '.gdlr-main-menu > .gdlr-normal-menu li , .gdlr-main-menu > .gdlr-mega-menu .sf-mega{ background-color: #gdlr#; }'
-										),		
+										),
 										'sub-menu-text' => array(
 											'title' => __('Sub Menu Text Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -769,34 +769,34 @@
 												'.gdlr-main-menu > li > .sub-menu .current-menu-ancestor > a, .gdlr-main-menu > li > .sf-mega a:hover, ' .
 												'.gdlr-main-menu > li > .sf-mega .current-menu-item > a, .gdlr-main-menu > li > .sf-mega .current-menu-ancestor > a{ color: #gdlr#; } ' .
 												'.gdlr-main-menu .gdlr-normal-menu li > a.sf-with-ul:after { border-left-color: #gdlr#; } '
-										),		
+										),
 										'sub-mega-menu-text-hover' => array(
 											'title' => __('Sub Mega Menu Background Hover', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#232323',
-											'selector'=> '.gdlr-main-menu .sf-mega-section-inner > ul > li > a:hover, ' . 
+											'selector'=> '.gdlr-main-menu .sf-mega-section-inner > ul > li > a:hover, ' .
 												'.gdlr-main-menu .sf-mega-section-inner > ul > li.current-menu-item > a { background-color: #gdlr#; } '
-										),										
+										),
 										'sub-menu-divider' => array(
 											'title' => __('Sub Menu Divider', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#333333',
 											'selector'=> '.gdlr-main-menu > li > .sub-menu *, .gdlr-main-menu > li > .sf-mega *{ border-color: #gdlr#; }'
-										),				
+										),
 										'sub-menu-mega-title' => array(
 											'title' => __('Sub (Mega) Menu Title', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
 											'selector'=> '.gdlr-main-menu > li > .sf-mega .sf-mega-section-inner > a { color: #gdlr#; }'
-										),			
+										),
 										'sub-menu-mega-title-hover' => array(
 											'title' => __('Sub (Mega) Menu Title Hover/Current', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
-											'selector'=> '.gdlr-main-menu > li > .sf-mega .sf-mega-section-inner > a:hover, ' . 
+											'selector'=> '.gdlr-main-menu > li > .sf-mega .sf-mega-section-inner > a:hover, ' .
 												'.gdlr-main-menu > li > .sf-mega .sf-mega-section-inner.current-menu-item > a, ' .
 												'.gdlr-main-menu > li > .sf-mega .sf-mega-section-inner.current-menu-ancestor > a { color: #gdlr#; }'
-										),			
+										),
 										'mobile-menu-background' => array(
 											'title' => __('Mobile Menu Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -808,12 +808,12 @@
 											'type' => 'colorpicker',
 											'default' => '#0a0a0a',
 											'selector'=> '#gdlr-responsive-navigation.dl-menuwrapper button:hover, ' .
-												'#gdlr-responsive-navigation.dl-menuwrapper button.dl-active, ' . 
+												'#gdlr-responsive-navigation.dl-menuwrapper button.dl-active, ' .
 												'#gdlr-responsive-navigation.dl-menuwrapper ul{ background-color: #gdlr#; }'
 										),
 									)
 								),
-								
+
 								'body-color' => array(
 									'title' => __('Body', 'gdlr_translate'),
 									'options' => array(
@@ -822,100 +822,100 @@
 											'type' => 'colorpicker',
 											'default' => '#dddddd',
 											'selector'=> 'body{ background-color: #gdlr#; }'
-										),	
+										),
 										'container-backgrond' => array(
 											'title' => __('Container Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
 											'selector'=> '.body-wrapper, .gdlr-single-lightbox-container{ background-color: #gdlr#; }'
-										),	
+										),
 										'page-title-color' => array(
 											'title' => __('Page Title Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
 											'selector'=> '.gdlr-page-title, .gdlr-page-title-gimmick{ color: #gdlr#; }'
-										),		
+										),
 										'page-caption-color' => array(
 											'title' => __('Page Caption Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
 											'selector'=> '.gdlr-page-caption{ color: #gdlr#; }'
-										),	
+										),
 										'heading-color' => array(
 											'title' => __('Heading Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#454545',
 											'selector'=> 'h1, h2, h3, h4, h5, h6, .gdlr-title, .gdlr-title a{ color: #gdlr#; }'
-										),		
+										),
 										'item-title-color' => array(
 											'title' => __('Item Title Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#292929',
 											'selector'=> '.gdlr-item-title-wrapper .gdlr-item-title{ color: #gdlr#; border-color: #gdlr#; }'
-										),												
+										),
 										'item-title-line' => array(
 											'title' => __('Item Title Divider', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#333333',
 											'selector'=> '.gdlr-item-title-divider{ border-color: #gdlr#; }'
-										),	
+										),
 										'item-title-caption-color' => array(
 											'title' => __('Item Title Caption Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#9b9b9b',
 											'selector'=> '.gdlr-item-title-wrapper .gdlr-item-caption{ color: #gdlr#; }'
-										),	
+										),
 										'body-text-color' => array(
 											'title' => __('Text Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
-											'default' => '#a4a4a4',
+											'default' => '#333333',
 											'selector'=> 'body{ color: #gdlr#; }'
-										),		
+										),
 										'body-link-color' => array(
 											'title' => __('Link Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#72d5cd',
 											'selector'=> 'a{ color: #gdlr#; }'
-										),			
+										),
 										'body-link-hover-color' => array(
 											'title' => __('Link Hover Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#82d6cc',
 											'selector'=> 'a:hover{ color: #gdlr#; }'
-										),			
+										),
 										'border-color' => array(
 											'title' => __('Border Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#e9e9e9',
 											'selector'=> 'body *{ border-color: #gdlr#; }'
-										),		
+										),
 										'404-box-background' => array(
 											'title' => __('404 Box Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#d65938',
 											'selector'=> '.page-not-found-block{ background-color: #gdlr#; }'
-										),		
+										),
 										'404-box-text' => array(
 											'title' => __('404 Box Text', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
 											'selector'=> '.page-not-found-block{ color: #gdlr#; }'
-										),		
+										),
 										'404-search-background' => array(
 											'title' => __('404 Search Box Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#963a20',
 											'selector'=> '.page-not-found-search  .gdl-search-form input[type="text"]{ background-color: #gdlr#; }'
-										),		
+										),
 										'404-search-text' => array(
 											'title' => __('404 Search Box Text', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#d57f5c',
 											'selector'=> '.page-not-found-search  .gdl-search-form input[type="text"]{ color: #gdlr#; }'
-										),											
-									)	
-								),	
-								
+										),
+									)
+								),
+
 								'sidebar-color' => array(
 									'title' => __('Sidebar Color', 'gdlr_translate'),
 									'options' => array(
@@ -924,7 +924,7 @@
 											'type' => 'colorpicker',
 											'default' => '#383838',
 											'selector'=> '.gdlr-sidebar .gdlr-widget-title{ color: #gdlr#; }'
-										),	
+										),
 										'sidebar-border-color' => array(
 											'title' => __('Sidebar Border Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -972,107 +972,107 @@
 
 								'content-item-1' => array(
 									'title' => __('Content Elements', 'gdlr_translate'),
-									'options' => array(		
+									'options' => array(
 										'accordion-text' => array(
 											'title' => __('Accordion (Style 1) Title Text', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#3c3c3c',
 											'selector'=> '.gdlr-accordion-item.style-1 .pre-active .accordion-title{ color: #gdlr#; }'
-										),		
+										),
 										'accordion-title-active-color' => array(
 											'title' => __('Accordion (Style 1) Title Active Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#8d8d8d',
 											'selector'=> '.gdlr-accordion-item.style-1 .accordion-title{ color: #gdlr#; }'
-										),										
+										),
 										'accordion-icon-background' => array(
 											'title' => __('Accordion (Style 1) Icon Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#f3f3f3',
 											'selector'=> '.gdlr-accordion-item.style-1 .accordion-title i{ background-color: #gdlr#; }'
-										),			
+										),
 										'accordion-icon-color' => array(
 											'title' => __('Accordion (Style 1) Icon Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#a8a8a8',
 											'selector'=> '.gdlr-accordion-item.style-1 .accordion-title i{ color: #gdlr#; }'
-										),	
+										),
 										'accordion-icon-active-background' => array(
 											'title' => __('Accordion (Style 1) Icon Active Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#72d5cd',
 											'selector'=> '.gdlr-accordion-item.style-1 .accordion-title i.icon-minus{ background-color: #gdlr#; }'
-										),			
+										),
 										'accordion-icon-active-color' => array(
 											'title' => __('Accordion (Style 1) Icon Active Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
 											'selector'=> '.gdlr-accordion-item.style-1 .accordion-title i.icon-minus{ color: #gdlr#; }'
-										),	
+										),
 										'banner-icon-color' => array(
 											'title' => __('Banner Item Navigation Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#999999',
-											'selector'=> '.gdlr-banner-item-wrapper .flex-direction-nav .flex-prev, ' . 
+											'selector'=> '.gdlr-banner-item-wrapper .flex-direction-nav .flex-prev, ' .
 												'.gdlr-banner-item-wrapper .flex-direction-nav .flex-next{ color: #gdlr#; }'
-										),										
+										),
 										'box-with-icon-background' => array(
 											'title' => __('Box With Icon Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#f5f5f5',
 											'selector'=> '.gdlr-box-with-icon-item{ background-color: #gdlr#; }'
-										),	
+										),
 										'box-with-icon-title' => array(
 											'title' => __('Box With Icon Title Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#585858',
-											'selector'=> '.gdlr-box-with-icon-item > i, ' . 
+											'selector'=> '.gdlr-box-with-icon-item > i, ' .
 												'.gdlr-box-with-icon-item .box-with-icon-title{ color: #gdlr#; }'
-										),											
+										),
 										'box-with-icon-text' => array(
 											'title' => __('Box With Icon Text Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#929292',
 											'selector'=> '.gdlr-box-with-icon-item{ color: #gdlr#; }'
-										),			
+										),
 										'button-text-color' => array(
 											'title' => __('Button Text Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
-											'selector'=> '.gdlr-button, .gdlr-button:hover, input[type="button"], input[type="submit"], ' . 
+											'selector'=> '.gdlr-button, .gdlr-button:hover, input[type="button"], input[type="submit"], ' .
 												'.gdlr-top-menu > .gdlr-mega-menu .sf-mega a.gdlr-button{ color: #gdlr#; }'
-										),	
+										),
 										'button-background-color' => array(
 											'title' => __('Button Background Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#72d5cd',
 											'selector'=> '.gdlr-button, input[type="button"], input[type="submit"]{ background-color: #gdlr#; }' .
 												'.gdlr-lms-authorize-payment input.submit{ background-color: #gdlr# !important; }'
-										),											
+										),
 										'button-border-color' => array(
 											'title' => __('Button Border Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#66b0ab',
 											'selector'=> '.gdlr-button{ border-color: #gdlr#; }'
-										),										
+										),
 										'column-service-title-color' => array(
 											'title' => __('Column Service Title Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#333333',
 											'selector'=> '.column-service-title{ color: #gdlr#; }'
-										),										
+										),
 										'column-service-content-color' => array(
 											'title' => __('Column Service Content Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#909090',
 											'selector'=> '.column-service-content{ color: #gdlr#; }'
-										),										
+										),
 										'column-service-icon-color' => array(
 											'title' => __('Column Service Icon Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#72d5cd',
 											'selector'=> '.column-service-icon i{ color: #gdlr#; }'
-										),										
+										),
 										'list-with-icon-title-color' => array(
 											'title' => __('List With Icon Title Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1084,7 +1084,7 @@
 											'type' => 'colorpicker',
 											'default' => '#313131',
 											'selector'=> '.gdlr-pie-chart-item .pie-chart-title{ color: #gdlr#; }'
-										),	
+										),
 										'price-background' => array(
 											'title' => __('Price Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1120,13 +1120,13 @@
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
 											'selector'=> '.gdlr-price-item .price-tag{ color: #gdlr#; }'
-										),							
-									)	
-								),								
+										),
+									)
+								),
 
 								'content-item-2' => array(
 									'title' => __('Content Elements 2', 'gdlr_translate'),
-									'options' => array(		
+									'options' => array(
 										'process-icon-background' => array(
 											'title' => __('Process Icon Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1206,37 +1206,37 @@
 											'type' => 'colorpicker',
 											'default' => '#f9f9f9',
 											'selector'=> '.tab-title-wrapper .tab-title{ background-color: #gdlr#; }'
-										),			
+										),
 										'tab-title-color' => array(
 											'title' => __('Tab Title Text Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#3b3b3b',
 											'selector'=> '.tab-title-wrapper .tab-title{ color: #gdlr#; }'
-										),	
+										),
 										'tab-title-content' => array(
 											'title' => __('Tab Title Content Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
 											'selector'=> '.tab-title-wrapper .tab-title.active, .tab-content-wrapper{ background-color: #gdlr#; }'
-										),										
+										),
 										'table-head-background' => array(
 											'title' => __('Table Head Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#72d5cd',
 											'selector'=> 'table tr th{ background-color: #gdlr#; }'
-										),			
+										),
 										'table-head-text' => array(
 											'title' => __('Table Head Text Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
 											'selector'=> 'table tr th{ color: #gdlr#; }'
-										),	
+										),
 										'table-style2-odd-background' => array(
 											'title' => __('Table (Style2) Odd Row Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#f9f9f9',
 											'selector'=> 'table.style-2 tr:nth-child(odd){ background-color: #gdlr#; }'
-										),			
+										),
 										'table-style2-odd-text' => array(
 											'title' => __('Table (Style2) Odd Row Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1248,16 +1248,16 @@
 											'type' => 'colorpicker',
 											'default' => '#f3f3f3',
 											'selector'=> 'table.style-2 tr:nth-child(even){ background-color: #gdlr#; }'
-										),			
+										),
 										'table-style2-even-text' => array(
 											'title' => __('Table (Style2) Even Row Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#949494',
 											'selector'=> 'table.style-2 tr:nth-child(even){ color: #gdlr#; }'
-										),		
+										),
 									)
 								),
-								
+
 								'blog-color' => array(
 									'title' => __('Blog Color', 'gdlr_translate'),
 									'options' => array(
@@ -1266,13 +1266,13 @@
 											'type' => 'colorpicker',
 											'default' => '#424242',
 											'selector'=> '.gdlr-blog-title, .gdlr-blog-title a{ color: #gdlr#; }'
-										),		
+										),
 										'blog-title-hover-color' => array(
 											'title' => __('Blog Title Hover Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#72d5cd',
 											'selector'=> '.gdlr-blog-title a:hover{ color: #gdlr#; }'
-										),	
+										),
 										'blog-info-color' => array(
 											'title' => __('Blog Info Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1290,19 +1290,19 @@
 											'type' => 'colorpicker',
 											'default' => '#404040',
 											'selector'=> '.blog-date-wrapper .blog-date-day{ color: #gdlr#; }'
-										),					
+										),
 										'blog-date-month' => array(
 											'title' => __('Blog Date Month ( Full/Medium )', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#828282',
 											'selector'=> '.blog-date-wrapper .blog-date-month{ color: #gdlr#; }'
-										),					
+										),
 										'blog-author-background' => array(
 											'title' => __('Blog Author Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#f5f5f5',
 											'selector'=> '.gdlr-post-author .gdlr-post-author-inner{ background-color: #gdlr#; }'
-										),												
+										),
 										'blog-sticky-background' => array(
 											'title' => __('Blog Sticky Bar Backgrond', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1314,13 +1314,13 @@
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
 											'selector'=> '.gdlr-blog-thumbnail .gdlr-sticky-banner, .gdlr-blog-thumbnail .gdlr-sticky-banner i{ color: #gdlr#; }'
-										),										
+										),
 										'blog-tag-background' => array(
 											'title' => __('Blog Tag Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#72d5cd',
 											'selector'=> '.gdlr-standard-style .gdlr-single-blog-tag a{ background-color: #gdlr#; }'
-										),			
+										),
 										'blog-tag-text-color' => array(
 											'title' => __('Blog Tag Text Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1332,7 +1332,7 @@
 											'type' => 'colorpicker',
 											'default' => '#f5f5f5',
 											'selector'=> '.gdlr-blog-widget{ background-color: #gdlr#; }'
-										),	
+										),
 										'blog-widget-bottom-border' => array(
 											'title' => __('Blog Widget Bottom Border', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1344,13 +1344,13 @@
 											'type' => 'colorpicker',
 											'default' => '#72d5cd',
 											'selector'=> '.format-aside .gdlr-blog-content{ background-color: #gdlr#; }'
-										),			
+										),
 										'blog-aside-text' => array(
 											'title' => __('Blog Aside Format Text Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
 											'selector'=> '.format-aside .gdlr-blog-content{ color: #gdlr#; }'
-										),	
+										),
 										'blog-quote-text-color' => array(
 											'title' => __('Blog Quote Format Text', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1362,7 +1362,7 @@
 											'type' => 'colorpicker',
 											'default' => '#72d5cd',
 											'selector'=> '.format-quote .gdlr-quote-author{ color: #gdlr#; }'
-										),	
+										),
 										'blog-navigation-text' => array(
 											'title' => __('Blog Navigation Icon ( Prev / Next )', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1370,7 +1370,7 @@
 											'selector'=> '.gdlr-single-nav > div i{ color: #gdlr#; }'
 										)
 									)
-								),								
+								),
 
 								'portfolio-color' => array(
 									'title' => __('Portfolio / Pagination', 'gdlr_translate'),
@@ -1380,13 +1380,13 @@
 											'type' => 'colorpicker',
 											'default' => '#b6b6b6',
 											'selector'=> '.portfolio-item-filter, .portfolio-item-filter a{ color: #gdlr#; } '
-										),					
+										),
 										'portfolio-filter-active-text' => array(
 											'title' => __('Portfolio Filter Active Text', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#72d5cd',
 											'selector'=> '.portfolio-item-filter a.active{ color: #gdlr#; }'
-										),	
+										),
 										'portfolio-thumbnail-hover-background' => array(
 											'title' => __('Portfolio Thumbnail Hover Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1398,15 +1398,15 @@
 											'title' => __('Portfolio Thumbnail Hover Icon Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
-											'selector'=> '.gdlr-image-link-shortcode .gdlr-image-link-icon, ' . 
+											'selector'=> '.gdlr-image-link-shortcode .gdlr-image-link-icon, ' .
 												'.portfolio-thumbnail .portfolio-icon i{ color: #gdlr#; }'
-										),			
+										),
 										'portfolio-thumbnail-icon-background' => array(
 											'title' => __('Portfolio Thumbnail Hover Icon Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#6fbdb7',
 											'selector'=> '.portfolio-thumbnail .portfolio-icon{ background-color: #gdlr#; }'
-										),										
+										),
 										'portfolio-title-color' => array(
 											'title' => __('Portfolio Title', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1425,7 +1425,7 @@
 											'default' => '#a2a2a2',
 											'selector'=> '.portfolio-info, ' .
 												'.portfolio-info a{ color: #gdlr#; }'
-										),			
+										),
 										'modern-portfolio-title-color' => array(
 											'title' => __('Modern Portfolio Title Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1443,20 +1443,20 @@
 											'type' => 'colorpicker',
 											'default' => '#95e0da',
 											'selector'=> '.portfolio-item-holder .gdlr-modern-portfolio .portfolio-content-wrapper{ border-color: #gdlr#; }'
-										),									
+										),
 										'modern-portfolio-tag-color' => array(
 											'title' => __('Modern Portfolio Tag Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#aeaeae',
 											'selector'=> '.portfolio-item-holder .gdlr-modern-portfolio .portfolio-info, ' .
 												'.portfolio-item-holder .gdlr-modern-portfolio .portfolio-info a{ color: #gdlr#; }'
-										),	
+										),
 										'pagination-background' => array(
 											'title' => __('Pagination Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ebebeb',
 											'selector'=> '.gdlr-pagination .page-numbers{ background-color: #gdlr#; }'
-										),		
+										),
 										'pagination-text-color' => array(
 											'title' => __('Pagination Text Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1467,19 +1467,19 @@
 											'title' => __('Pagination Background-hover', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#72d5cd',
-											'selector'=> '.gdlr-pagination .page-numbers:hover, ' . 
+											'selector'=> '.gdlr-pagination .page-numbers:hover, ' .
 												'.gdlr-pagination .page-numbers.current{ background-color: #gdlr#; }'
-										),		
+										),
 										'pagination-text-color-hover' => array(
 											'title' => __('Pagination Text Color Hover', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
-											'selector'=> '.gdlr-pagination .page-numbers:hover, ' . 
+											'selector'=> '.gdlr-pagination .page-numbers:hover, ' .
 												'.gdlr-pagination .page-numbers.current{ color: #gdlr#; }'
-										),									
+										),
 									)
 								),
-								
+
 								'personnel-testimonial-color' => array(
 									'title' => __('Personnel / Testimonial', 'gdlr_translate'),
 									'options' => array(
@@ -1488,50 +1488,50 @@
 											'type' => 'colorpicker',
 											'default' => '#f5f5f5',
 											'selector'=> '.gdlr-personnel-item .personnel-item-inner{ background-color: #gdlr#; }'
-										),	
+										),
 										'round-personnel-hover-background' => array(
 											'title' => __('Round Personnel Hover Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#72d5cd',
 											'selector'=> '.gdlr-personnel-item.round-style .personnel-item{ background-color: #gdlr#; }'
-										),										
+										),
 										'personnel-author-text' => array(
 											'title' => __('Personnel Author Text', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#3b3b3b',
 											'selector'=> '.gdlr-personnel-item .personnel-author{ color: #gdlr#; }'
-										),			
+										),
 										'personnel-author-border' => array(
 											'title' => __('Personnel Author Image Border', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#72d5cd',
 											'selector'=> '.gdlr-personnel-item .personnel-author-image{ border-color: #gdlr#; }'
-										),		
+										),
 										'personnel-position-color' => array(
 											'title' => __('Personnel Position Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#acacac',
 											'selector'=> '.gdlr-personnel-item .personnel-position{ color: #gdlr#; }'
-										),		
+										),
 										'personnel-content-color' => array(
 											'title' => __('Personnel Content Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#959595',
 											'selector'=> '.gdlr-personnel-item .personnel-content{ color: #gdlr#; }'
-										),		
+										),
 										'personnel-social-icon-color' => array(
 											'title' => __('Personnel Social Icon Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#3b3b3b',
 											'selector'=> '.gdlr-personnel-item .personnel-social i{ color: #gdlr#; }'
-										),			
+										),
 										'testimonial-box-background' => array(
 											'title' => __('Testimonial Box Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#f5f5f5',
-											'selector'=> '.gdlr-testimonial-item .testimonial-item-inner, ' . 
+											'selector'=> '.gdlr-testimonial-item .testimonial-item-inner, ' .
 												'.gdlr-testimonial-item .testimonial-author-image{ background-color: #gdlr#; }'
-										),			
+										),
 										'testimonial-content-color' => array(
 											'title' => __('Testimonial Content Text', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1543,26 +1543,26 @@
 											'type' => 'colorpicker',
 											'default' => '#72d5cd',
 											'selector'=> '.gdlr-testimonial-item .testimonial-author{ color: #gdlr#; }'
-										),		
+										),
 										'testimonial-author-position' => array(
 											'title' => __('Testimonial Author Position', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#4d4d4d',
 											'selector'=> '.gdlr-testimonial-item .testimonial-position{ color: #gdlr#; }'
-										),	
+										),
 										'testimonial-author-image-border' => array(
 											'title' => __('Testimonial Author Image Border', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#72d5cd',
 											'selector'=> '.gdlr-testimonial-item .testimonial-author-image{ border-color: #gdlr#; }'
-										),				
+										),
 										'testimonial-boxed-style-shadow' => array(
 											'title' => __('Testimonial Shadow ( Box Style )', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#dddddd',
-											'selector'=> '.gdlr-testimonial-item.box-style .testimonial-item-inner:after' . 
+											'selector'=> '.gdlr-testimonial-item.box-style .testimonial-item-inner:after' .
 												'{ border-top-color: #gdlr#; border-left-color: #gdlr#; }'
-										),										
+										),
 									)
 								),
 
@@ -1580,7 +1580,7 @@
 											'type' => 'colorpicker',
 											'default' => '#000000',
 											'selector'=> '.gdlr-gallery-thumbnail-container .gallery-caption{ background-color: #gdlr#; }'
-										),	
+										),
 										'gallery-caption-text' => array(
 											'title' => __('Gallery ( Thumbnail ) Caption Text', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1592,20 +1592,20 @@
 											'type' => 'colorpicker',
 											'default' => '#cecece',
 											'selector'=> '.nivo-controlNav a, .flex-control-paging li a{ background-color: #gdlr#; }'
-										),		
+										),
 										'slider-bullet-background-hover' => array(
 											'title' => __('Slider Bullet Background Hover', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#949494',
-											'selector'=> '.nivo-controlNav a:hover, .nivo-controlNav a.active, ' . 
+											'selector'=> '.nivo-controlNav a:hover, .nivo-controlNav a.active, ' .
 												'.flex-control-paging li a:hover, .flex-control-paging li a.flex-active { background-color: #gdlr#; }'
-										),										
+										),
 										'slider-bullet-border' => array(
 											'title' => __('Slider Bullet Border Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
 											'selector'=> '.nivo-controlNav a, .flex-control-paging li a{ border-color: #gdlr# !important; }'
-										),	
+										),
 										'slider-navigation-background' => array(
 											'title' => __('Slider Navigation Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1676,14 +1676,14 @@
 											'default' => '#72d5cd',
 											'selector'=> '.gdlr-item-title-wrapper .gdlr-flex-prev, .gdlr-item-title-wrapper .gdlr-flex-next{ background-color: #gdlr#; }',
 											'description'=> __('The slider navigation that does not be inside the slider area.', 'gdlr_translate')
-										),			
+										),
 										'slider-outer-nav-icon' => array(
 											'title' => __('Slider Outer Navigation Icon', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
 											'selector'=> '.gdlr-item-title-wrapper .gdlr-flex-prev, .gdlr-item-title-wrapper .gdlr-flex-next{ color: #gdlr#; }',
 											'description'=> __('The slider navigation that does not be inside the slider area.', 'gdlr_translate')
-										),										
+										),
 										'input-box-background' => array(
 											'title' => __('Input Box Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1702,10 +1702,10 @@
 												'textarea::-moz-placeholder{ color:#gdlr#; } textarea:-moz-placeholder{ color:#gdlr#; }' .
 												'textarea:-ms-input-placeholder{ color:#gdlr#; }'
 										),
-										
+
 									)
 								),
-								
+
 								'footer-color' => array(
 									'title' => __('Footer', 'gdlr_translate'),
 									'options' => array(
@@ -1714,7 +1714,7 @@
 											'type' => 'colorpicker',
 											'default' => '#262626',
 											'selector'=> '.footer-wrapper{ background-color: #gdlr#; }'
-										),	
+										),
 										'footer-title-color' => array(
 											'title' => __('Footer Title Text Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1726,7 +1726,7 @@
 											'type' => 'colorpicker',
 											'default' => '#bfbfbf',
 											'selector'=> '.footer-wrapper{ color: #gdlr#; }'
-										),	
+										),
 										'footer-link-color' => array(
 											'title' => __('Footer Text Link Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1749,37 +1749,37 @@
 											'title' => __('Footer Input Box Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#141414',
-											'selector'=> '.footer-wrapper input[type="text"], .footer-wrapper input[type="email"], ' . 
+											'selector'=> '.footer-wrapper input[type="text"], .footer-wrapper input[type="email"], ' .
 												'.footer-wrapper input[type="password"], .footer-wrapper textarea{ background-color: #gdlr#; }'
 										),
 										'footer-input-box-text' => array(
 											'title' => __('Footer Input Box Text', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#828282',
-											'selector'=> '.footer-wrapper input[type="text"], .footer-wrapper input[type="email"], ' . 
+											'selector'=> '.footer-wrapper input[type="text"], .footer-wrapper input[type="email"], ' .
 												'.footer-wrapper input[type="password"], .footer-wrapper textarea{ color: #gdlr#; }'
-										),		
+										),
 										'footer-input-box-border' => array(
 											'title' => __('Footer Input Box Border', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#313131',
-											'selector'=> '.footer-wrapper input[type="text"], .footer-wrapper input[type="email"], ' . 
+											'selector'=> '.footer-wrapper input[type="text"], .footer-wrapper input[type="email"], ' .
 												'.footer-wrapper input[type="password"], .footer-wrapper textarea{ border-color: #gdlr#; }'
-										),		
+										),
 										'footer-button-text-color' => array(
 											'title' => __('Button Text Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
-											'selector'=> '.footer-wrapper .gdlr-button, .footer-wrapper .gdlr-button:hover, ' . 
+											'selector'=> '.footer-wrapper .gdlr-button, .footer-wrapper .gdlr-button:hover, ' .
 												'.footer-wrapper input[type="button"], .footer-wrapper input[type="submit"]{ color: #gdlr#; }'
-										),	
+										),
 										'footer-button-background-color' => array(
 											'title' => __('Button Background Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#72d5cd',
-											'selector'=> '.footer-wrapper .gdlr-button, .footer-wrapper input[type="button"], ' . 
+											'selector'=> '.footer-wrapper .gdlr-button, .footer-wrapper input[type="button"], ' .
 												'.footer-wrapper input[type="submit"]{ background-color: #gdlr#; }'
-										),											
+										),
 										'footer-tag-cloud-background' => array(
 											'title' => __('Footer Tagcloud Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1810,9 +1810,9 @@
 											'default' => '#828282',
 											'selector'=> '.footer-wrapper .copyright-wrapper{ border-color: #gdlr#; }'
 										),
-									)	
+									)
 								),
-								
+
 								'woocommerce-color' => array(
 									'title' => __('Woocommerce Color', 'gdlr_translate'),
 									'options' => array(
@@ -1828,7 +1828,7 @@
 												'html .woocommerce-page .star-rating:before, html .woocommerce div.product span.price, html .woocommerce div.product p.price, ' .
 												'html .woocommerce #content div.product span.price, html .woocommerce #content div.product p.price, html .woocommerce-page div.product span.price, ' .
 												'html .woocommerce-page div.product p.price, html .woocommerce-page #content div.product span.price, html .woocommerce-page #content div.product p.price {color: #gdlr#; }'
-										),	
+										),
 										'woo-text-in-element-color' => array(
 											'title' => __('Woocommerce Text In Element Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1837,11 +1837,11 @@
 											'selector'=> 'html .woocommerce-message  a.button, html .woocommerce-error  a.button, html .woocommerce-info  a.button, ' .
 												'html .woocommerce-message, html .woocommerce-error, html .woocommerce-info, ' .
 												'html  .woocommerce span.onsale, html  .woocommerce-page span.onsale, html .woocommerce div.product .woocommerce-tabs ul.tabs li.active,' .
-												'html .woocommerce #content div.product .woocommerce-tabs ul.tabs li.active, html .woocommerce-page div.product .woocommerce-tabs ul.tabs li.active, ' . 
-												'html .woocommerce-page #content div.product .woocommerce-tabs ul.tabs li.active, html .woocommerce nav.woocommerce-pagination ul li span.current, ' . 
-												'html .woocommerce-page nav.woocommerce-pagination ul li span.current, html .woocommercenav.woocommerce-pagination ul li a:hover, ' . 
+												'html .woocommerce #content div.product .woocommerce-tabs ul.tabs li.active, html .woocommerce-page div.product .woocommerce-tabs ul.tabs li.active, ' .
+												'html .woocommerce-page #content div.product .woocommerce-tabs ul.tabs li.active, html .woocommerce nav.woocommerce-pagination ul li span.current, ' .
+												'html .woocommerce-page nav.woocommerce-pagination ul li span.current, html .woocommercenav.woocommerce-pagination ul li a:hover, ' .
 												'html .woocommerce-page nav.woocommerce-pagination ul li a:hover{ color: #gdlr#; }'
-										),	
+										),
 										'woo-notification-background' => array(
 											'title' => __('Woocommerce Notification Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
@@ -1860,9 +1860,9 @@
 											'default' => '#72d5cd',
 											'selector'=> 'html .woocommerce a.button.alt:hover, html .woocommerce button.button.alt:hover, html .woocommerce input.button.alt:hover, ' .
 												'html .woocommerce #respond input#submit.alt:hover, html .woocommerce #content input.button.alt:hover, html .woocommerce-page a.button.alt:hover, ' .
-												'html .woocommerce-page button.button.alt:hover, html .woocommerce-page input.button.alt:hover, html .woocommerce-page #respond input#submit.alt:hover, ' . 
-												'html .woocommerce-page #content input.button.alt:hover, html .woocommerce a.button.alt, html .woocommerce button.button.alt, html .woocommerce input.button.alt, ' . 
-												'html .woocommerce #respond input#submit.alt, html .woocommerce #content input.button.alt, html .woocommerce-page a.button.alt, html .woocommerce-page button.button.alt, ' . 
+												'html .woocommerce-page button.button.alt:hover, html .woocommerce-page input.button.alt:hover, html .woocommerce-page #respond input#submit.alt:hover, ' .
+												'html .woocommerce-page #content input.button.alt:hover, html .woocommerce a.button.alt, html .woocommerce button.button.alt, html .woocommerce input.button.alt, ' .
+												'html .woocommerce #respond input#submit.alt, html .woocommerce #content input.button.alt, html .woocommerce-page a.button.alt, html .woocommerce-page button.button.alt, ' .
 												'html .woocommerce-page input.button.alt, html .woocommerce-page #respond input#submit.alt, html .woocommerce-page #content input.button.alt, ' .
 												'html .woocommerce a.button, html .woocommerce button.button, html .woocommerce input.button, html .woocommerce #respond input#submit, ' .
 												'html .woocommerce #content input.button, html .woocommerce-page a.button, html .woocommerce-page button.button, html .woocommerce-page input.button, ' .
@@ -1877,19 +1877,19 @@
 											'title' => __('Woocommerce Button Text', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
-											'selector'=> 'html .woocommerce a.button.alt:hover, html .woocommerce button.button.alt:hover, html .woocommerce input.button.alt:hover, ' . 
-												'html .woocommerce #respond input#submit.alt:hover, html .woocommerce #content input.button.alt:hover, html .woocommerce-page a.button.alt:hover, ' .  
-												'html .woocommerce-page button.button.alt:hover, html .woocommerce-page input.button.alt:hover, html .woocommerce-page #respond input#submit.alt:hover, ' .  
-												'html .woocommerce-page #content input.button.alt:hover, html .woocommerce a.button.alt, html .woocommerce button.button.alt, html .woocommerce input.button.alt, ' .  
-												'html .woocommerce #respond input#submit.alt, html .woocommerce #content input.button.alt, html .woocommerce-page a.button.alt, html .woocommerce-page button.button.alt, ' . 
-												'html .woocommerce-page input.button.alt, html .woocommerce-page #respond input#submit.alt, html .woocommerce-page #content input.button.alt, ' . 
-												'html .woocommerce a.button, html .woocommerce button.button, html .woocommerce input.button, html .woocommerce #respond input#submit, ' .  
-												'html .woocommerce #content input.button, html .woocommerce-page a.button, html .woocommerce-page button.button, html .woocommerce-page input.button, ' . 
-												'html .woocommerce-page #respond input#submit, html .woocommerce-page #content input.button, html .woocommerce a.button:hover, html .woocommerce button.button:hover, ' . 
-												'html .woocommerce input.button:hover, html .woocommerce #respond input#submit:hover, html .woocommerce #content input.button:hover, ' . 
-												'html .woocommerce-page a.button:hover, html .woocommerce-page button.button:hover, html .woocommerce-page input.button:hover, ' . 
-												'html .woocommerce-page #respond input#submit:hover, html .woocommerce-page #content input.button:hover, html .woocommerce ul.products li.product a.loading, ' . 
-												'html .woocommerce div.product form.cart .button, html .woocommerce #content div.product form.cart .button, html .woocommerce-page div.product form.cart .button, ' . 
+											'selector'=> 'html .woocommerce a.button.alt:hover, html .woocommerce button.button.alt:hover, html .woocommerce input.button.alt:hover, ' .
+												'html .woocommerce #respond input#submit.alt:hover, html .woocommerce #content input.button.alt:hover, html .woocommerce-page a.button.alt:hover, ' .
+												'html .woocommerce-page button.button.alt:hover, html .woocommerce-page input.button.alt:hover, html .woocommerce-page #respond input#submit.alt:hover, ' .
+												'html .woocommerce-page #content input.button.alt:hover, html .woocommerce a.button.alt, html .woocommerce button.button.alt, html .woocommerce input.button.alt, ' .
+												'html .woocommerce #respond input#submit.alt, html .woocommerce #content input.button.alt, html .woocommerce-page a.button.alt, html .woocommerce-page button.button.alt, ' .
+												'html .woocommerce-page input.button.alt, html .woocommerce-page #respond input#submit.alt, html .woocommerce-page #content input.button.alt, ' .
+												'html .woocommerce a.button, html .woocommerce button.button, html .woocommerce input.button, html .woocommerce #respond input#submit, ' .
+												'html .woocommerce #content input.button, html .woocommerce-page a.button, html .woocommerce-page button.button, html .woocommerce-page input.button, ' .
+												'html .woocommerce-page #respond input#submit, html .woocommerce-page #content input.button, html .woocommerce a.button:hover, html .woocommerce button.button:hover, ' .
+												'html .woocommerce input.button:hover, html .woocommerce #respond input#submit:hover, html .woocommerce #content input.button:hover, ' .
+												'html .woocommerce-page a.button:hover, html .woocommerce-page button.button:hover, html .woocommerce-page input.button:hover, ' .
+												'html .woocommerce-page #respond input#submit:hover, html .woocommerce-page #content input.button:hover, html .woocommerce ul.products li.product a.loading, ' .
+												'html .woocommerce div.product form.cart .button, html .woocommerce #content div.product form.cart .button, html .woocommerce-page div.product form.cart .button, ' .
 												'html .woocommerce-page #content div.product form.cart .button{ color: #gdlr#; }'
 										),
 										'woo-button-bottom-border' => array(
@@ -1915,23 +1915,23 @@
 											'title' => __('Woocommerce Border Color', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ebebeb',
-											'selector'=> 'html .woocommerce #reviews #comments ol.commentlist li img.avatar, html .woocommerce-page #reviews #comments ol.commentlist li img.avatar { background: #gdlr#; }' . 
-												'html .woocommerce #reviews #comments ol.commentlist li img.avatar, html .woocommerce-page #reviews #comments ol.commentlist li img.avatar,' . 
-												'html .woocommerce #reviews #comments ol.commentlist li .comment-text, html .woocommerce-page #reviews #comments ol.commentlist li .comment-text,' . 
-												'html .woocommerce ul.products li.product a img, html .woocommerce-page ul.products li.product a img, html .woocommerce ul.products li.product a img:hover ,' .  
-												'html .woocommerce-page ul.products li.product a img:hover, html .woocommerce-page div.product div.images img, html .woocommerce-page #content div.product div.images img,' . 
-												'html .woocommerce form.login, html .woocommerce form.checkout_coupon, html .woocommerce form.register, html .woocommerce-page form.login,' .  
-												'html .woocommerce-page form.checkout_coupon, html .woocommerce-page form.register, html .woocommerce table.cart td.actions .coupon .input-text,' .  
-												'html .woocommerce #content table.cart td.actions .coupon .input-text, html .woocommerce-page table.cart td.actions .coupon .input-text,' .  
-												'html .woocommerce-page #content table.cart td.actions .coupon .input-text { border: 1px solid #gdlr#; }' . 
-												'html .woocommerce div.product .woocommerce-tabs ul.tabs:before, html .woocommerce #content div.product .woocommerce-tabs ul.tabs:before,' .  
-												'html .woocommerce-page div.product .woocommerce-tabs ul.tabs:before, html .woocommerce-page #content div.product .woocommerce-tabs ul.tabs:before,' . 
-												'html .woocommerce table.shop_table tfoot td, html .woocommerce table.shop_table tfoot th, html .woocommerce-page table.shop_table tfoot td,' .  
-												'html .woocommerce-page table.shop_table tfoot th, html .woocommerce table.shop_table tfoot td, html .woocommerce table.shop_table tfoot th,' .  
-												'html .woocommerce-page table.shop_table tfoot td, html .woocommerce-page table.shop_table tfoot th { border-bottom: 1px solid #gdlr#; }' . 
-												'html .woocommerce .cart-collaterals .cart_totals table tr:first-child th, html .woocommerce .cart-collaterals .cart_totals table tr:first-child td,' .  
-												'html .woocommerce-page .cart-collaterals .cart_totals table tr:first-child th, html .woocommerce-page .cart-collaterals .cart_totals table tr:first-child td { border-top: 3px #gdlr# solid; }' . 
-												'html .woocommerce .cart-collaterals .cart_totals tr td, html .woocommerce .cart-collaterals .cart_totals tr th,' .  
+											'selector'=> 'html .woocommerce #reviews #comments ol.commentlist li img.avatar, html .woocommerce-page #reviews #comments ol.commentlist li img.avatar { background: #gdlr#; }' .
+												'html .woocommerce #reviews #comments ol.commentlist li img.avatar, html .woocommerce-page #reviews #comments ol.commentlist li img.avatar,' .
+												'html .woocommerce #reviews #comments ol.commentlist li .comment-text, html .woocommerce-page #reviews #comments ol.commentlist li .comment-text,' .
+												'html .woocommerce ul.products li.product a img, html .woocommerce-page ul.products li.product a img, html .woocommerce ul.products li.product a img:hover ,' .
+												'html .woocommerce-page ul.products li.product a img:hover, html .woocommerce-page div.product div.images img, html .woocommerce-page #content div.product div.images img,' .
+												'html .woocommerce form.login, html .woocommerce form.checkout_coupon, html .woocommerce form.register, html .woocommerce-page form.login,' .
+												'html .woocommerce-page form.checkout_coupon, html .woocommerce-page form.register, html .woocommerce table.cart td.actions .coupon .input-text,' .
+												'html .woocommerce #content table.cart td.actions .coupon .input-text, html .woocommerce-page table.cart td.actions .coupon .input-text,' .
+												'html .woocommerce-page #content table.cart td.actions .coupon .input-text { border: 1px solid #gdlr#; }' .
+												'html .woocommerce div.product .woocommerce-tabs ul.tabs:before, html .woocommerce #content div.product .woocommerce-tabs ul.tabs:before,' .
+												'html .woocommerce-page div.product .woocommerce-tabs ul.tabs:before, html .woocommerce-page #content div.product .woocommerce-tabs ul.tabs:before,' .
+												'html .woocommerce table.shop_table tfoot td, html .woocommerce table.shop_table tfoot th, html .woocommerce-page table.shop_table tfoot td,' .
+												'html .woocommerce-page table.shop_table tfoot th, html .woocommerce table.shop_table tfoot td, html .woocommerce table.shop_table tfoot th,' .
+												'html .woocommerce-page table.shop_table tfoot td, html .woocommerce-page table.shop_table tfoot th { border-bottom: 1px solid #gdlr#; }' .
+												'html .woocommerce .cart-collaterals .cart_totals table tr:first-child th, html .woocommerce .cart-collaterals .cart_totals table tr:first-child td,' .
+												'html .woocommerce-page .cart-collaterals .cart_totals table tr:first-child th, html .woocommerce-page .cart-collaterals .cart_totals table tr:first-child td { border-top: 3px #gdlr# solid; }' .
+												'html .woocommerce .cart-collaterals .cart_totals tr td, html .woocommerce .cart-collaterals .cart_totals tr th,' .
 												'html .woocommerce-page .cart-collaterals .cart_totals tr td, html .woocommerce-page .cart-collaterals .cart_totals tr th { border-bottom: 2px solid #gdlr#; }'
 										),
 										'woo-secondary-elements' => array(
@@ -1939,24 +1939,24 @@
 											'type' => 'colorpicker',
 											'default' => '#f3f3f3',
 											'description'=> __('This color effects following elements : inactive tab, input, textarea,romving product button, payment option box, inactive pagination', 'gdlr_translate'),
-											'selector'=> 'html .woocommerce div.product .woocommerce-tabs ul.tabs li, html .woocommerce #content div.product .woocommerce-tabs ul.tabs li, ' . 
-												'html .woocommerce-page div.product .woocommerce-tabs ul.tabs li, html .woocommerce-page #content div.product .woocommerce-tabs ul.tabs li ,' . 
-												'html .woocommerce table.cart a.remove, html .woocommerce #content table.cart a.remove, html .woocommerce-page table.cart a.remove, ' . 
-												'html .woocommerce-page #content table.cart a.remove, html .woocommerce #payment, html .woocommerce-page #payment, html .woocommerce .customer_details,' . 
-												'html .woocommerce ul.order_details, html .woocommerce nav.woocommerce-pagination ul li a, html .woocommerce-page nav.woocommerce-pagination ul li a,' . 
-												'html .woocommerce form .form-row input.input-text, html .woocommerce form .form-row textarea, html .woocommerce-page form .form-row input.input-text, ' . 
-												'html .woocommerce-page form .form-row textarea, html .woocommerce .quantity input.qty, html .woocommerce #content .quantity input.qty, ' . 
-												'html .woocommerce-page .quantity input.qty, html .woocommerce-page #content .quantity input.qty,' . 
-												'html .woocommerce .widget_shopping_cart .total, html .woocommerce-page .widget_shopping_cart .total { background: #gdlr#; }' . 
-												'html .woocommerce .quantity input.qty, html .woocommerce #content .quantity input.qty, html .woocommerce-page .quantity input.qty, ' . 
+											'selector'=> 'html .woocommerce div.product .woocommerce-tabs ul.tabs li, html .woocommerce #content div.product .woocommerce-tabs ul.tabs li, ' .
+												'html .woocommerce-page div.product .woocommerce-tabs ul.tabs li, html .woocommerce-page #content div.product .woocommerce-tabs ul.tabs li ,' .
+												'html .woocommerce table.cart a.remove, html .woocommerce #content table.cart a.remove, html .woocommerce-page table.cart a.remove, ' .
+												'html .woocommerce-page #content table.cart a.remove, html .woocommerce #payment, html .woocommerce-page #payment, html .woocommerce .customer_details,' .
+												'html .woocommerce ul.order_details, html .woocommerce nav.woocommerce-pagination ul li a, html .woocommerce-page nav.woocommerce-pagination ul li a,' .
+												'html .woocommerce form .form-row input.input-text, html .woocommerce form .form-row textarea, html .woocommerce-page form .form-row input.input-text, ' .
+												'html .woocommerce-page form .form-row textarea, html .woocommerce .quantity input.qty, html .woocommerce #content .quantity input.qty, ' .
+												'html .woocommerce-page .quantity input.qty, html .woocommerce-page #content .quantity input.qty,' .
+												'html .woocommerce .widget_shopping_cart .total, html .woocommerce-page .widget_shopping_cart .total { background: #gdlr#; }' .
+												'html .woocommerce .quantity input.qty, html .woocommerce #content .quantity input.qty, html .woocommerce-page .quantity input.qty, ' .
 												'html .woocommerce-page #content .quantity input.qty { border: 1px solid #gdlr#; }'
-										),	
+										),
 										'woo-secondary-elements-border' => array(
 											'title' => __('Woocommerce Secondary Element Border', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#e5e5e5',
 											'selector'=> 'html .woocommerce .widget_shopping_cart .total, html .woocommerce-page .widget_shopping_cart .total { border-top: 2px solid #gdlr#; }' .
-												'html .woocommerce table.cart a.remove:hover, html .woocommerce #content table.cart a.remove:hover, html .woocommerce-page table.cart a.remove:hover,' . 
+												'html .woocommerce table.cart a.remove:hover, html .woocommerce #content table.cart a.remove:hover, html .woocommerce-page table.cart a.remove:hover,' .
 												'html .woocommerce-page #content table.cart a.remove:hover, html #payment div.payment_box, html .woocommerce-page #payment div.payment_box { background: #gdlr#; }'
 										),
 										'woo-cart-summary-price' => array(
@@ -1979,16 +1979,16 @@
 											'title' => __('Plus / Minus Product Border', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#a0a0a0',
-											'selector'=> 'html .woocommerce .quantity .plus, html .woocommerce .quantity .minus, html .woocommerce #content .quantity .plus, html .woocommerce #content .quantity .minus, 
-												html .woocommerce-page .quantity .plus, html .woocommerce-page .quantity .minus, html .woocommerce-page #content .quantity .plus, 
+											'selector'=> 'html .woocommerce .quantity .plus, html .woocommerce .quantity .minus, html .woocommerce #content .quantity .plus, html .woocommerce #content .quantity .minus,
+												html .woocommerce-page .quantity .plus, html .woocommerce-page .quantity .minus, html .woocommerce-page #content .quantity .plus,
 												html .woocommerce-page #content .quantity .minus { border: 1px solid #gdlr#; }'
 										),
 										'woo-plus-minus-product-sign' => array(
 											'title' => __('Plus / Minus Product Sign', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#ffffff',
-											'selector'=> 'html .woocommerce .quantity .plus, html .woocommerce .quantity .minus, html .woocommerce #content .quantity .plus, html .woocommerce #content .quantity .minus, 
-												html .woocommerce-page .quantity .plus, html .woocommerce-page .quantity .minus, html .woocommerce-page #content .quantity .plus, 
+											'selector'=> 'html .woocommerce .quantity .plus, html .woocommerce .quantity .minus, html .woocommerce #content .quantity .plus, html .woocommerce #content .quantity .minus,
+												html .woocommerce-page .quantity .plus, html .woocommerce-page .quantity .minus, html .woocommerce-page #content .quantity .plus,
 												html .woocommerce-page #content .quantity .minus { color: #gdlr#; }'
 										),
 										'woo-plus-product-background' => array(
@@ -2003,16 +2003,16 @@
 											'title' => __('Minus Product Background', 'gdlr_translate'),
 											'type' => 'colorpicker',
 											'default' => '#b6b6b6',
-											'selector'=> 'html .woocommerce .quantity .minus, html .woocommerce #content .quantity .minus,  html .woocommerce-page .quantity .minus,' .  
-												'html .woocommerce-page #content .quantity .minus, html .woocommerce .quantity .minus:hover, html .woocommerce #content .quantity .minus:hover,' . 
+											'selector'=> 'html .woocommerce .quantity .minus, html .woocommerce #content .quantity .minus,  html .woocommerce-page .quantity .minus,' .
+												'html .woocommerce-page #content .quantity .minus, html .woocommerce .quantity .minus:hover, html .woocommerce #content .quantity .minus:hover,' .
 												'html .woocommerce-page .quantity .minus:hover,  html .woocommerce-page #content .quantity .minus:hover{ background: #gdlr#; }'
 										),
 									)
 								)
-							
-							)					
+
+							)
 						),
-						
+
 						// plugin setting menu
 						'plugin-settings' => array(
 							'title' => __('Plugin / Slider', 'gdlr_translate'),
@@ -2020,7 +2020,7 @@
 							'options' => array(
 								'general-plugins' => array(
 									'title' => __('General Plugins', 'gdlr_translate'),
-									'options' => array(			
+									'options' => array(
 										'enable-plugin-recommendation' => array(
 											'title' => __('Enable Plugin Recommendation', 'gdlr_translate'),
 											'type' => 'checkbox',
@@ -2043,23 +2043,23 @@
 											'type' => 'checkbox',
 											'default' => 'enable',
 											'description' => '<strong>*** ' . __('Turn this option off will make slider shortcode / post slider widget unavailable', 'gdlr_translate') . '</strong>'
-										),		
+										),
 										'enable-fancybox' => array(
 											'title' => __('Enable Fancybox', 'gdlr_translate'),
 											'type' => 'checkbox',
 											'default' => 'enable',
 											'description' => '<strong>*** ' . __('Turn this option off can make all lightbox option breaks', 'gdlr_translate') . '</strong>'
-										),		
+										),
 										'enable-fancybox-thumbs' => array(
 											'title' => __('Enable Fancybox Thumbnail ( Gallery Mode )', 'gdlr_translate'),
 											'type' => 'checkbox',
 											'default' => 'enable'
-										)																				
+										)
 									)
 								),
 								'flex-slider' => array(
 									'title' => __('Flex Slider', 'gdlr_translate'),
-									'options' => array(		
+									'options' => array(
 										'flex-slider-effects' => array(
 											'title' => __('Flex Slider Effect', 'gdlr_translate'),
 											'type' => 'combobox',
@@ -2077,12 +2077,12 @@
 											'title' => __('Flex Slider Animation Speed', 'gdlr_translate'),
 											'type' => 'text',
 											'default' => '600'
-										),	
+										),
 									)
 								),
 								'nivo-slider' => array(
 									'title' => __('Nivo Slider', 'gdlr_translate'),
-									'options' => array(		
+									'options' => array(
 										'nivo-slider-effects' => array(
 											'title' => __('Nivo Slider Effect', 'gdlr_translate'),
 											'type' => 'combobox',
@@ -2111,20 +2111,20 @@
 											'title' => __('Nivo Slider Animation Speed', 'gdlr_translate'),
 											'type' => 'text',
 											'default' => '600'
-										),	
+										),
 									)
 								),
-							)					
+							)
 						),
-						
+
 					)
-				), 
-				
+				),
+
 				$theme_option
 			);
-			
+
 		}
-		
+
 	}
 
 ?>

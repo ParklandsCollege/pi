@@ -28,7 +28,7 @@
 		}
 	}
 
-	
+
 
 	// print course search
 	function gdlr_lms_print_course_search( $settings, $page_builder = false ){
@@ -504,22 +504,7 @@
 	}
 
 	// print course price
-	function gdlr_lms_print_course_price($course_options){
-		echo '<div class="gdlr-lms-course-price">';
-		echo '<span class="head">' . __('Price', 'gdlr-lms') . '</span>';
-		if( !empty($course_options['allow-non-member']) && $course_options['allow-non-member'] == 'enable' &&
-			(empty($course_options['online-course']) || $course_options['online-course'] == 'enable') ){
-			echo '<span class="price">' . __('Free' ,'gdlr-lms') . '</span>';
-		}else if( !empty($course_options['price']) && empty($course_options['discount-price']) ){
-			echo '<span class="price">' . gdlr_lms_money_format($course_options['price']) . '</span>';
-		}else if( !empty($course_options['discount-price']) ){
-			echo '<span class="price with-discount">' . gdlr_lms_money_format($course_options['price']) . '</span>';
-			echo '<span class="discount-price">' . gdlr_lms_money_format($course_options['discount-price']) . '</span>';
-		}else{
-			echo '<span class="price">' . __('Free' ,'gdlr-lms') . '</span>';
-		}
-		echo '</div>';
-	}
+	
 
 	// print course button
 	function gdlr_lms_print_course_button($course_options, $options = array('buy', 'book', 'learn')){
