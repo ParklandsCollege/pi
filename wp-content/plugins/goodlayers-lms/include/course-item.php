@@ -648,7 +648,7 @@
 				case 'prerequisite':
 					echo 'You have to complete ' . '<a href="' . get_permalink($course_options['prerequisite-course']) . '" >';
 					echo get_the_title($course_options['prerequisite-course']);
-					echo '</a>' . ' before you can access to this course.';
+					echo '</a>' . ' before you can access to this lesson.';
 					break;
 				case 'quiz':
 					if( !empty($course_options['quiz']) && $course_options['quiz'] != 'none' ){
