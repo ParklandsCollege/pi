@@ -21,7 +21,7 @@ img, video{ max-width: 100%; height: auto; width: auto; /* for ie8 */ }
 
 /* course info */
 .gdlr-lms-course-info { margin-bottom: 15px; }
-.gdlr-lms-course-info .gdlr-lms-info { font-size: 14px; margin-bottom: 7px; }
+.gdlr-lms-course-info .gdlr-lms-info { font-size: 14px; margin-bottom: 7px; display:none;}
 .gdlr-lms-course-info .gdlr-lms-info .head { font-weight: bold; margin-right: 10px;
 	float: left; min-width: 36px; }
 .gdlr-lms-course-info .gdlr-lms-info .tail{ display: block; overflow: hidden; }
@@ -137,7 +137,7 @@ body.single-course .gdlr-lms-rating-wrapper { padding-top: 8px; }
 .gdlr-lms-course-single { margin: 0px 15px; }
 .gdlr-lms-course-single .gdlr-lms-course-info-wrapper { width: 30%; float: right; padding: 35px 30px 15px; margin-left: 30px; }
 .gdlr-lms-course-single .gdlr-lms-course-content { overflow: hidden; }
-.gdlr-lms-course-single .gdlr-lms-course-info-author-image { overflow: hidden; max-width: 150px; margin: 0px auto 40px;
+.gdlr-lms-course-single .gdlr-lms-course-info-author-image { overflow: hidden; max-width: 150px; margin: 0px auto 0px;
     border-radius: 50%; -moz-border-radius: 50%; -webkit-border-radius: 50%; }
 .gdlr-lms-course-single .gdlr-lms-course-info-author-image img{ display: block; }
 .gdlr-lms-course-single .gdlr-lms-course-thumbnail{ margin-bottom: 30px; }
