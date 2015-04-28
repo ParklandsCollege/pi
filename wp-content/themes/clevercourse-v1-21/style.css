@@ -203,7 +203,7 @@ img.gdlr-full-boxed-background{ min-height: 100%; min-width: 1024px;
 .gdlr-top-woocommerce .gdlr-cart-amount{ margin-bottom: 20px; }
 .gdlr-top-woocommerce-inner > a{ display: block; font-sizE: 14px; font-weight: bold; margin-bottom: 8px; }
 
-.gdlr-header-wrapper{ position: relative; z-index: 99; left: 0px; right: 0px; border-bottom:2px solid #f5f5f5; }
+.gdlr-header-wrapper{ position: relative; z-index: 99; left: 0px; right: 0px; }
 .gdlr-header-container{ position: relative; z-index: 97; }
 .gdlr-logo{ float: left; margin-left: 15px; margin-right: 15px;color:white; font-family:"PT Sans", Helvetica, Arial, sans-serif; background:#36A9E1;}
 .gdlr-logo a {color:white; font-weight:bold; font-size:32px; padding:4px 18px; display:block;}
@@ -230,8 +230,8 @@ img.gdlr-full-boxed-background{ min-height: 100%; min-width: 1024px;
 .gdlr-navigation-wrapper .gdlr-main-menu > li:first-child > a:before { display: none; }
 .gdlr-navigation-wrapper .gdlr-main-menu > li > a.sf-with-ul:after{ display: none;  }
 
-.gdlr-page-title-wrapper { padding: 70px 0px 60px; position: relative; z-index: 89; text-align: center; line-height: 1;
-	background-image: url('images/page-title-background.jpg'); background-repeat: repeat; background-position: center; }
+.gdlr-page-title-wrapper { padding: 20px 0px 20px; position: relative; z-index: 89; text-align: center; line-height: 1;
+	background:#333; }
 .gdlr-page-title-wrapper .gdlr-page-title-overlay{ position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px;
 	background: #000; opacity: 0.70; filter: alpha(opacity=70); }
 .gdlr-page-title-wrapper .gdlr-page-title-container{ position: relative; }

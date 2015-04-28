@@ -28,7 +28,7 @@
 		}
 	}
 
-	include( plugin_dir_path( __FILE__ ) . 'global-site-search/global-site-search.php');
+	
 
 	// print course search
 	function gdlr_lms_print_course_search( $settings, $page_builder = false ){

@@ -128,14 +128,14 @@
 			$array['script']['gdlr-script'] = GDLR_PATH . '/javascript/gdlr-script.js';
 
 			// include custom style at the last
-			// $multisite = get_current_blog_id();
-			// if( empty($multisite) || $multisite == 1 ){
-			// 	$array['style']['style-custom'] = GDLR_PATH . '/stylesheet/style-custom.css';
-			// }else{
-			// 	$array['style']['style-custom'] = GDLR_PATH . '/stylesheet/style-custom' .  $multisite . '.css';
-			// }
-			//
-			// return $array;
+			$multisite = get_current_blog_id();
+			if( empty($multisite) || $multisite == 1 ){
+				$array['style']['style-custom'] = GDLR_PATH . '/stylesheet/style-custom.css';
+			}else{
+				$array['style']['style-custom'] = GDLR_PATH . '/stylesheet/style-custom' .  $multisite . '.css';
+			}
+
+			return $array;
 		}
 	}
 

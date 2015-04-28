@@ -73,15 +73,15 @@
 
 		if( $post->post_type == 'course' ){
 			$template = '';
-			
+
 			if( isset($_GET['course_type']) ){
 				global $wpdb, $current_user, $gdlr_course_settings, $gdlr_course_options, $lms_page, $payment_row;
 				$authorization = false;
-				
+
 				$gdlr_course_options = gdlr_lms_get_course_options($post->ID);
 				$gdlr_course_settings = gdlr_lms_get_course_content_settings($post->ID);
 				$lms_page = (empty($_GET['course_page']))? 1: intval($_GET['course_page']);
-				
+
 				if( !empty($gdlr_course_options['allow-non-member']) && $gdlr_course_options['allow-non-member'] == 'enable' &&
 					(empty($course_options['online-course']) || $course_options['online-course'] == 'enable') ){
 					$authorization = true;
@@ -92,7 +92,7 @@
 
 						// check if purchase before
 						$payment_row = gdlr_lms_get_payment_row($post->ID, $current_user->ID);
-						
+
 						if(!empty($payment_row)){
 							if( $payment_row->payment_status == 'paid' ){
 								$authorization = true;
@@ -100,10 +100,10 @@
 								if( $lms_page - 1 > $payment_row->attendance_section ){
 									$lms_page = $payment_row->attendance_section + 1;
 								}
-								
+
 								if( $payment_row->attendance_section < $lms_page){
 									$current_date = strtotime(date('Y-m-d H:i:s'));
-									
+
 									if( !empty($gdlr_course_settings[$lms_page-2]['wait-time']) && $lms_page > 1 ){
 										$available_date = strtotime($payment_row->attendance) + (intval($gdlr_course_settings[$lms_page-2]['wait-time']) * 86400);
 									}else if( !empty($gdlr_course_settings[$lms_page-2]['wait-date']) && $lms_page > 1 ){
@@ -111,7 +111,7 @@
 									}else{
 										$available_date = strtotime($payment_row->attendance);
 									}
-									
+
 									if( $lms_page > 1 && $current_date <= $available_date ){
 										global $gdlr_time_left;
 										$gdlr_time_left = $available_date - $current_date;
@@ -127,7 +127,7 @@
 
 						// check whether it is free course
 						}else{
-						
+
 							if( empty($gdlr_course_options['price-one']) ){
 								$authorization = true;
 
@@ -153,7 +153,7 @@
 										'payment_info'=>$data, 'attendance'=>date('Y-m-d H:i:s'), 'attendance_section'=>'1'),
 									array('%d', '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%s')
 								);
-								
+
 								$payment_row = gdlr_lms_get_payment_row($post->ID, $current_user->ID);
 							}
 						}
@@ -186,7 +186,7 @@
 	add_action('admin_enqueue_scripts', 'gdlr_lms_course_script');
 	function gdlr_lms_course_script() {
 		global $post; if( empty($post) || $post->post_type != 'course' ) return;
-		
+
 		gdlr_lms_include_jquery_ui_style();
 		wp_enqueue_style('gdlr-lms-meta-box', plugins_url('/stylesheet/meta-box.css', __FILE__));
 

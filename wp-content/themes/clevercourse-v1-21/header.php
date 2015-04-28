@@ -77,7 +77,7 @@
 				<!-- logo -->
 				<div class="gdlr-logo">
 					<a href="<?php echo home_url(); ?>" >
-						PI					
+						PI
 					</a>
 					<?php
 						// mobile navigation
