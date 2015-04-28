@@ -42,8 +42,7 @@
 			  $gdlr_post_option['page-style'] == 'normal' ||
 			  $gdlr_post_option['page-style'] == 'no-footer'){
 	?>
-	//
-	 <header class="gdlr-header-wrapper">
+	<header class="gdlr-header-wrapper">
 		<!-- top navigation -->
 		<?php if( empty($theme_option['enable-top-bar']) || $theme_option['enable-top-bar'] == 'enable' ){ ?>
 		<div class="top-navigation-wrapper">
