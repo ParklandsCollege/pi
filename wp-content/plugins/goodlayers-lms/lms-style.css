@@ -38,7 +38,7 @@ input[type="submit"].gdlr-lms-button:hover, input[type="submit"].gdlr-lms-button
 .gdlr-lms-button{ font-weight: 600; text-transform: uppercase; font-size: 11px;
 	display: inline-block; margin-right: 10px; cursor: pointer; padding: 14px 25px 14px;
 	border-radius: 0px; -moz-border-radius: 0px; -webkit-border-radius: 0px;
-	border-width: 0px 0px 3px; border-bottom-style: solid; letter-spacing: 1px; }
+	border-width: 0px 0px 0px; border-bottom-style: solid; letter-spacing: 1px; }
 .gdlr-lms-course-full-wrapper .gdlr-lms-button{ font-size: 12px; padding: 12px 19px; }
 .gdlr-type-both-sidebar .gdlr-lms-course-full-wrapper .gdlr-lms-button.cyan{ padding: 12px 26px; }
 .gdlr-lms-col4 .gdlr-lms-button.cyan{ padding: 13px 32px 13px; }
