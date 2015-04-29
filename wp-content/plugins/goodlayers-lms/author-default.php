@@ -43,7 +43,7 @@
 
 					if( $count ){
 						echo '<a class="gdlr-lms-button cyan" href="' . add_query_arg('post_type','unit');
-						echo '" >' . __('View units by','gdlr-lms') . ' ' . $author_meta['first_name'][0] . '</a>';
+						echo '" >' . __('View courses by','gdlr-lms') . ' ' . $author_meta['first_name'][0] . '</a>';
 					}else{
 						$where = get_posts_by_author_sql('post', true, $author_id);
 						$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts $where" );

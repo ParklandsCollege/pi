@@ -21,7 +21,7 @@
 					'not_found'          => __('No courses found', 'gdlr-lms'),
 					'not_found_in_trash' => __('No courses found in Trash', 'gdlr-lms'),
 					'parent_item_colon'  => '',
-					'menu_name'          => __('Units', 'gdlr-lms')
+					'menu_name'          => __('Courses', 'gdlr-lms')
 				),
 				'public'             => true,
 				'publicly_queryable' => true,
