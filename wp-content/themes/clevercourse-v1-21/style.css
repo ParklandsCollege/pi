@@ -67,7 +67,7 @@ a img.aligncenter { display: block; margin-left: auto; margin-right: auto; }
 .wp-caption p.wp-caption-text { font-size: 11px; line-height: 17px; margin: 0; padding: 0 4px 5px; }
 .sticky{}
 .bypostauthor{}
-
+.displaynone {display:none !important;}
 .gallery-item .gallery-icon { margin-right: 10px; }
 i{ margin-right: 5px; }
 a{ text-decoration: none; }
