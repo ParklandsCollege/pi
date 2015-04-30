@@ -221,7 +221,7 @@ img.gdlr-full-boxed-background{ min-height: 100%; min-width: 1024px;
 .gdlr-fixed-header .gdlr-nav-search-form-button{ visibility: hidden; }
 .admin-bar .gdlr-fixed-header{ top: 32px }
 
-.gdlr-navigation-wrapper{ margin: 0px 15px; float: left; }
+.gdlr-navigation-wrapper{ margin: 0px 15px !important; float: left; }
 .gdlr-navigation-wrapper .gdlr-navigation-container{ position: relative; line-height: 0; }
 .gdlr-navigation-wrapper .gdlr-main-menu > li{ padding: 0px; }
 .gdlr-navigation-wrapper .gdlr-main-menu > li > a{ font-size: 11px; padding: 23px 20px 21px 0px; margin: 0px; text-transform: uppercase; font-weight: 700; letter-spacing: 2px; }
