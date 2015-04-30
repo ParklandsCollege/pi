@@ -39,10 +39,10 @@ body{ background-color: #dddddd; }
 .gdlr-page-title, .gdlr-page-title-gimmick{ color: #424242; }
 .gdlr-page-caption{ color: #ffffff; }
 h1, h2, h3, h4, h5, h6, .gdlr-title, .gdlr-title a{ color: #454545; }
-.gdlr-item-title-wrapper .gdlr-item-title{ color: #292929; border-color: #292929; }
+.gdlr-item-title-wrapper .gdlr-item-title{ color: #8c8c8c; border-color: #8c8c8c; }
 .gdlr-item-title-divider{ border-color: #333333; }
 .gdlr-item-title-wrapper .gdlr-item-caption{ color: #239be0; }
-body{ color: #262626; }
+body{ color: #727272; }
 a{ color: #239be0; }
 a:hover{ color: #2174d3; }
 body *{ border-color: #e9e9e9; }
