@@ -614,13 +614,13 @@
 				case 'buy':
 					echo '<a data-rel="gdlr-lms-lightbox" data-lb-open="';
 					echo empty($lightbox_open)? 'buy-form': $lightbox_open;
-					echo '" class="gdlr-lms-button cyan" >' . __('Buy Now', 'gdlr-lms') . '</a>';
+					//echo '" class="gdlr-lms-button cyan" >' . __('Buy Now', 'gdlr-lms') . '</a>';
 					if(empty($lightbox_open)){ gdlr_lms_purchase_lightbox_form($course_options, 'buy'); }
 					break;
 				case 'book':
 					echo '<a data-rel="gdlr-lms-lightbox" data-lb-open="';
 					echo empty($lightbox_open)? 'book-form': $lightbox_open;
-					echo '" class="gdlr-lms-button blue" >' . __('Book Now', 'gdlr-lms') . '</a>';
+					//echo '" class="gdlr-lms-button blue" >' . __('Book Now', 'gdlr-lms') . '</a>';
 					if(empty($lightbox_open)){ gdlr_lms_purchase_lightbox_form($course_options, 'book'); }
 					break;
 				case 'learn':
