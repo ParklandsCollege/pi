@@ -614,34 +614,34 @@
 				case 'buy':
 					echo '<a data-rel="gdlr-lms-lightbox" data-lb-open="';
 					echo empty($lightbox_open)? 'buy-form': $lightbox_open;
-					echo '" class="gdlr-lms-button cyan displaynone" >' . __('Buy Now', 'gdlr-lms') . '</a>';
+					echo '" class="gdlr-button displaynone" >' . __('Buy Now', 'gdlr-lms') . '</a>';
 					if(empty($lightbox_open)){ gdlr_lms_purchase_lightbox_form($course_options, 'buy'); }
 					break;
 				case 'book':
 					echo '<a data-rel="gdlr-lms-lightbox" data-lb-open="';
 					echo empty($lightbox_open)? 'book-form': $lightbox_open;
-					echo '" class="gdlr-lms-button blue displaynone" >' . __('Book Now', 'gdlr-lms') . '</a>';
+					echo '" class="gdlr-button displaynone" >' . __('Book Now', 'gdlr-lms') . '</a>';
 					if(empty($lightbox_open)){ gdlr_lms_purchase_lightbox_form($course_options, 'book'); }
 					break;
 				case 'learn':
-					echo '<a class="gdlr-lms-button black" href="' . get_permalink() . '" >' . __('Learn More', 'gdlr-lms') . '</a>';
+					echo '<a class="gdlr-button black" href="' . get_permalink() . '" >' . __('Learn More', 'gdlr-lms') . '</a>';
 					break;
 				case 'start':
-					echo '<a class="gdlr-lms-button cyan" href="' . add_query_arg(array('course_type'=>'content', 'course_page'=>1), get_permalink()) . '" >';
+					echo '<a class="gdlr-button" href="' . add_query_arg(array('course_type'=>'content', 'course_page'=>1), get_permalink()) . '" >';
 					_e('Start the unit', 'gdlr-lms');
 					echo '</a>';
 					break;
 				case 'proceed-payment':
 					global $current_user;
 
-					echo '<a class="gdlr-lms-button cyan" href="' . add_query_arg('type', 'book-courses', get_author_posts_url($current_user->ID)) . '" >';
+					echo '<a class="gdlr-button" href="' . add_query_arg('type', 'book-courses', get_author_posts_url($current_user->ID)) . '" >';
 					_e('Proceed Payment', 'gdlr-lms');
 					echo '</a>';
 					break;
 				case 'booking-status':
 					global $current_user;
 
-					echo '<a class="gdlr-lms-button cyan" href="' . add_query_arg('type', 'free-onsite', get_author_posts_url($current_user->ID)) . '" >';
+					echo '<a class="gdlr-button" href="' . add_query_arg('type', 'free-onsite', get_author_posts_url($current_user->ID)) . '" >';
 					_e('Booking Status', 'gdlr-lms');
 					echo '</a>';
 					break;
@@ -664,12 +664,12 @@
 							if( !empty($quiz_options['retake-quiz']) && $quiz_options['retake-quiz'] == 'enable' &&
 								$old_quiz->retake_times < 9999 &&
 								(empty($quiz_options['retake-times']) || $old_quiz->retake_times < intval($quiz_options['retake-times'])) ){
-								echo '<a class="gdlr-lms-button cyan" href="' . add_query_arg(array('course_type'=>'quiz', 'course_page'=>1, 'retake'=>1), get_permalink()) . '" >';
+								echo '<a class="gdlr-button" href="' . add_query_arg(array('course_type'=>'quiz', 'course_page'=>1, 'retake'=>1), get_permalink()) . '" >';
 								_e('Retake a quiz', 'gdlr-lms');
 								echo '</a>';
 							}
 						}else{
-							echo '<a class="gdlr-lms-button cyan" href="' . add_query_arg(array('course_type'=>'quiz', 'course_page'=>1), get_permalink()) . '" >';
+							echo '<a class="gdlr-button" href="' . add_query_arg(array('course_type'=>'quiz', 'course_page'=>1), get_permalink()) . '" >';
 							_e('Take a quiz', 'gdlr-lms');
 							echo '</a>';
 						}
@@ -678,7 +678,7 @@
 				case 'finish-quiz':
 					echo '<a href="' . add_query_arg(array('course_type'=>'quiz', 'course_page'=> 'finish')) . '" ';
 					echo 'data-loading="' . __('Submitting the answer','gdlr-lms') . '" ';
-					echo 'class="gdlr-lms-button cyan finish-quiz-form-button" >';
+					echo 'class="gdlr-button finish-quiz-form-button" >';
 					_e('Finish the quiz', 'gdlr-lms');
 					echo '</a>';
 					gdlr_lms_finish_quiz_form();
