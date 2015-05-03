@@ -209,6 +209,60 @@
 		// Add an nonce field so we can check for it later.
 		wp_nonce_field( 'course_meta_box', 'course_meta_box_nonce' );
 
+
+		/////////////////////
+		//// tab section ////
+		/////////////////////
+
+		$course_content_options = array(
+			'section-name' => array(
+				'title' => __('Section Name', 'gdlr-lms'),
+				'type' => 'text'
+			),
+			/*'pdf-download-link' => array(
+				'title' => __('PDF Download Link', 'gdlr-lms'),
+				'type' => 'upload'
+			),
+			'wait-time' => array(
+				'title' => __('Student have to wait', 'gdlr-lms'),
+				'type' => 'text',
+				'class' => 'small',
+				'description' => __('days before continuing to next section.', 'gdlr-lms'),
+			),
+			'wait-date' => array(
+				'title' => __('Next section will be available at', 'gdlr-lms'),
+				'type' => 'datepicker',
+				'description' => __('( Wait time has to be blank for this field to take effects )', 'gdlr-lms'),
+			),*/
+			'course-content' => array(
+				'type' => 'wysiwyg'
+			),
+		);
+		$course_content_val = gdlr_lms_decode_preventslashes(get_post_meta($post->ID, 'gdlr-lms-content-settings', true));
+		$course_content_options_val = empty($course_content_val)? array(): json_decode($course_content_val, true);
+
+		echo '<div class="gdlr-lms-meta-wrapper gdlr-tabs">';
+		echo '<h3>' . __('Course Content', 'gdlr-lms') . '</h3>';
+		echo '<div class="course-tab-add-new">';
+		echo '<span class="head">+</span>';
+		echo '<span class="tail">' . __('Add Section', 'gdlr-lms') . '</span>';
+		echo '</div>'; // course-tab-add-new
+		echo '<div class="course-tab-title">';
+		echo '<span class="active">1</span>';
+		for( $i = 2; $i <= sizeof($course_content_options_val); $i++ ){
+			echo '<span>' . $i . '</span>';
+		}
+		echo '</div>'; // course-tab-title
+		echo '<div class="course-tab-content">';
+		echo '<div class="course-tab-remove">Delete</div>';
+		foreach($course_content_options as $slug => $course_content_option){
+			$course_content_option['slug'] = $slug;
+			$course_content_option['value'] = empty($course_content_options_val[0][$slug])? '': $course_content_options_val[0][$slug];
+			gdlr_lms_print_meta_box($course_content_option);
+		}
+		echo '</div>'; // course-tab-content
+		echo '<textarea name="gdlr-lms-content-settings">' . esc_textarea($course_content_val) . '</textarea>';
+		echo '</div>';
 		////////////////////////////////
 		//// course setting section ////
 		////////////////////////////////
@@ -219,7 +273,12 @@
 				'type' => 'combobox',
 				'options' => gdlr_lms_get_post_list('course')
 			),
-			'online-course' => array(
+			'quiz' => array(
+				'title' => __('Course Quiz', 'gdlr-lms'),
+				'type' => 'combobox',
+				'options' => gdlr_lms_get_post_list('quiz')
+			),
+			/*'online-course' => array(
 				'title' => __('Online Course', 'gdlr-lms'),
 				'type' => 'checkbox',
 				'default' => 'enable',
@@ -236,11 +295,6 @@
 				'title' => __('Course Code', 'gdlr-lms'),
 				'type' => 'text',
 				'description' => __('Use to generate code after submit payment evidence.', 'gdlr-lms')
-			),
-			'quiz' => array(
-				'title' => __('Course Quiz', 'gdlr-lms'),
-				'type' => 'combobox',
-				'options' => gdlr_lms_get_post_list('quiz')
 			),
 			'location' => array(
 				'title' => __('Location', 'gdlr-lms'),
@@ -296,10 +350,10 @@
 				'class' => 'small',
 				'description' => __('(Only number is allowed here)', 'gdlr-lms')
 
-			),
+			),*/
 
 			// badge and certificate
-			'enable-badge' => array(
+			/*'enable-badge' => array(
 				'title' => __('Enable Badge', 'gdlr-lms'),
 				'type' => 'checkbox',
 				'default' => 'disable',
@@ -336,7 +390,7 @@
 				'type' => 'combobox',
 				'options' => gdlr_lms_get_post_list('certificate'),
 				'wrapper-class' => 'online-course-enable'
-			),
+			),*/
 		);
 		$course_val = gdlr_lms_decode_preventslashes(get_post_meta($post->ID, 'gdlr-lms-course-settings', true));
 		$course_settings_val = empty($course_val)? array(): json_decode($course_val, true);
@@ -351,59 +405,6 @@
 		echo '<textarea name="gdlr-lms-course-settings">' . esc_textarea($course_val) . '</textarea>';
 		echo '</div>';
 
-		/////////////////////
-		//// tab section ////
-		/////////////////////
-
-		$course_content_options = array(
-			'section-name' => array(
-				'title' => __('Section Name', 'gdlr-lms'),
-				'type' => 'text'
-			),
-			'pdf-download-link' => array(
-				'title' => __('PDF Download Link', 'gdlr-lms'),
-				'type' => 'upload'
-			),
-			'wait-time' => array(
-				'title' => __('Student have to wait', 'gdlr-lms'),
-				'type' => 'text',
-				'class' => 'small',
-				'description' => __('days before continuing to next section.', 'gdlr-lms'),
-			),
-			'wait-date' => array(
-				'title' => __('Next section will be available at', 'gdlr-lms'),
-				'type' => 'datepicker',
-				'description' => __('( Wait time has to be blank for this field to take effects )', 'gdlr-lms'),
-			),
-			'course-content' => array(
-				'type' => 'wysiwyg'
-			),
-		);
-		$course_content_val = gdlr_lms_decode_preventslashes(get_post_meta($post->ID, 'gdlr-lms-content-settings', true));
-		$course_content_options_val = empty($course_content_val)? array(): json_decode($course_content_val, true);
-
-		echo '<div class="gdlr-lms-meta-wrapper gdlr-tabs">';
-		echo '<h3>' . __('Course Content', 'gdlr-lms') . '</h3>';
-		echo '<div class="course-tab-add-new">';
-		echo '<span class="head">+</span>';
-		echo '<span class="tail">' . __('Add Section', 'gdlr-lms') . '</span>';
-		echo '</div>'; // course-tab-add-new
-		echo '<div class="course-tab-title">';
-		echo '<span class="active">1</span>';
-		for( $i = 2; $i <= sizeof($course_content_options_val); $i++ ){
-			echo '<span>' . $i . '</span>';
-		}
-		echo '</div>'; // course-tab-title
-		echo '<div class="course-tab-content">';
-		echo '<div class="course-tab-remove">Delete</div>';
-		foreach($course_content_options as $slug => $course_content_option){
-			$course_content_option['slug'] = $slug;
-			$course_content_option['value'] = empty($course_content_options_val[0][$slug])? '': $course_content_options_val[0][$slug];
-			gdlr_lms_print_meta_box($course_content_option);
-		}
-		echo '</div>'; // course-tab-content
-		echo '<textarea name="gdlr-lms-content-settings">' . esc_textarea($course_content_val) . '</textarea>';
-		echo '</div>';
 	}
 	function gdlr_lms_save_course_meta_box($post_id){
 

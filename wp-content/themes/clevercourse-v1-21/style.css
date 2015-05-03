@@ -366,12 +366,12 @@ body.search .page-not-found-block{ margin-top: 0px; }
 .gdlr-accordion-item.style-2 .accordion-content{ margin-left: 31px;  }
 
 /*--- button ---*/
+.gdlr-button {background:white !important; border:1px solid #239be0 !important; color:#239be0 !important;}
 .gdlr-button, input[type="button"], input[type="submit"]{ display: inline-block; font-size: 12px; padding: 15px 23px;
 	margin-bottom: 15px; margin-right: 5px; outline: none; cursor: pointer; text-transform: uppercase;
 	font-weight: 700; letter-spacing: 1px; border: none; }
 .gdlr-button.small{ font-size: 11px; padding: 11px 16px; }
 .gdlr-button.large{ font-size: 14px; padding: 13px 25px; }
-.gdlr-button.with-border{ border-bottom-width: 3px; border-bottom-style: solid; }
 .gdlr-button .gdlr-icon { margin-right: 5px; letter-spacing: 1px; }
 
 /*--- column service ---*/
