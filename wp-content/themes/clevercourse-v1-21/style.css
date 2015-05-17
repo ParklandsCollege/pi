@@ -229,7 +229,7 @@ img.gdlr-full-boxed-background{ min-height: 100%; min-width: 1024px;
 .gdlr-navigation-wrapper .gdlr-main-menu > li > a:before { content: "•"; margin-right: 20px; }
 .gdlr-navigation-wrapper .gdlr-main-menu > li:first-child > a:before { display: none; }
 .gdlr-navigation-wrapper .gdlr-main-menu > li > a.sf-with-ul:after{ display: none;  }
-
+.gdlr-page-title {display:none;}
 .gdlr-page-title-wrapper { padding: 20px 0px 20px; position: relative; z-index: 89; text-align: center; line-height: 1;
 	background:#333; }
 .gdlr-page-title-wrapper .gdlr-page-title-overlay{ position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px;

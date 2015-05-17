@@ -17,11 +17,21 @@
 			echo '<nav class="gdlr-navigation" role="navigation">';
 			wp_nav_menu( array('theme_location'=>'main_menu') );
 		}
-		gdlr_get_woocommerce_nav();
+
 
 		echo '<div class="gdlr-nav-search-form-button" id="gdlr-nav-search-form-button"><i class="icon-search"></i></div>';
 		echo '</nav>'; // gdlr-navigation
 	}
 	echo '<div class="clear"></div>';
 	echo '</div>'; // gdlr-navigation-wrapper
+
+
+	echo '<div class="gdlr-navigation-wrapper">';
+	function register_my_menu() {
+	  register_nav_menu('header-menu',__( 'Sub Menu' ));
+	}
+	add_action( 'init', 'register_my_menu' );
+
+	echo '<div class="clear"></div>';
+	echo '</div>';
 ?>
