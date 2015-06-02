@@ -3,7 +3,7 @@
  * Thanks to Pablo Cantero https://github.com/phstc/jquery-dateFormat
  */
 
-var DateFormat = {};
+var gdmDateFormat = {};
 
 (function($) {
   var daysInWeek          = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -463,9 +463,9 @@ var DateFormat = {};
       }
     };
   }());
-}(DateFormat));
+}(gdmDateFormat));
 ;// require dateFormat.js
 // please check `dist/jquery.dateFormat.js` for a complete version
 (function($) {
-  $.format = DateFormat.format;
+  $.gdmDateFormat = gdmDateFormat.format;
 }(jQuery));

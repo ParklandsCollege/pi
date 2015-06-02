@@ -173,13 +173,13 @@ class commercial_google_drive_embedder extends core_google_drive_embedder {
 			$license_key = $options['gdm_license_key'];
 		}
 	
-		if( !class_exists( 'EDD_SL_Plugin_Updater3' ) ) {
+		if( !class_exists( 'EDD_SL_Plugin_Updater4' ) ) {
 			// load our custom updater
 			include( dirname( __FILE__ ) . '/EDD_SL_Plugin_Updater.php' );
 		}
 			
 		// setup the updater
-		$edd_updater = new EDD_SL_Plugin_Updater3( WPGLOGIN_GDM_STORE_URL, $this->my_plugin_basename(),
+		$edd_updater = new EDD_SL_Plugin_Updater4( WPGLOGIN_GDM_STORE_URL, $this->my_plugin_basename(),
 				array(
 						'version' 	=> $this->PLUGIN_VERSION,
 						'license' 	=> $license_key,
@@ -349,19 +349,28 @@ class commercial_google_drive_embedder extends core_google_drive_embedder {
 				);
 			}
 			else {
-				$oldoptions = $this->get_option_gdm();
-				if ($oldoptions['gdm_license_key'] != $newinput['gdm_license_key']) {
+				// There is a valid-looking license key present
+
+				$checked_license_status = get_site_option($this->get_eddsl_optname(), true);
+
+				// Only bother trying to activate if we have a new license key OR the same license key but it was invalid on last check.
+				$existing_valid_license = '';
+				if (is_array($checked_license_status) && isset($checked_license_status['license_id']) && $checked_license_status['license_id'] != ''
+				    && isset($checked_license_status['status']) && $checked_license_status['status'] == 'valid') {
+					$existing_valid_license = $checked_license_status['license_id'];
+				}
+
+				if ($existing_valid_license != $newinput['gdm_license_key']) {
 
 					$license_status = $this->edd_license_activate($newinput['gdm_license_key']);
 					if (isset($license_status['status']) && $license_status['status'] != 'valid') {
 						add_settings_error(
-						'gdm_license_key',
-						$license_status['status'],
-						self::get_error_string('gdm_license_key|'.$license_status['status']),
-						'error'
-								);
+							'gdm_license_key',
+							$license_status['status'],
+							self::get_error_string('gdm_license_key|'.$license_status['status']),
+							'error'
+						);
 					}
-
 				}
 			}
 		}

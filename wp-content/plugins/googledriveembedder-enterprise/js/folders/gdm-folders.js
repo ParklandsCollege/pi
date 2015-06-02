@@ -589,7 +589,7 @@ var gdmFolderViewer = {
     
     formatDateTime : function(dtstr) {
     	var dt = new Date(dtstr);
-    	return jQuery.format.date(dt, 'MMM d, yyyy h:mm a');
+    	return jQuery.gdmDateFormat.date(dt, 'MMM d, yyyy h:mm a');
 	},
 	
 	getAppId : function() {

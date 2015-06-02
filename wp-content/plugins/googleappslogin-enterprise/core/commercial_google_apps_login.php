@@ -88,8 +88,8 @@ class commercial_google_apps_login extends core_google_apps_login {
 						sprintf( __('Email address needs to be in %s.', 'google-apps-login'), 
 								implode(', ', $domain_list) )
 						.' ('
-						.sprintf( __( '%s not authorized -  <a href="https://accounts.google.com/Logout" target="_blank">Sign out of Google</a> to switch accounts', 'google-apps-login' ),
-								$google_email). ')'
+						.sprintf( __( '%s not authorized -  <a href="%s">Sign out of Google</a> to switch accounts', 'google-apps-login' ),
+								$google_email, $this->get_google_logout_url()). ')'
 										);
 			}
 		}
@@ -425,13 +425,7 @@ class commercial_google_apps_login extends core_google_apps_login {
 		if ($options['ga_googlelogout'] && isset($_GET['loggedout']) && $_GET['loggedout'] == 'true'
 			 && !isset($_GET['galoggedout'])) {
 
-			$redirect_url = !empty($_GET['redirect_to']) ? $_GET['redirect_to'] 
-								: $this->get_login_url().'?loggedout=true&galoggedout=true'; 
-			
-			$continueurl = 'https://www.google.com/accounts/Logout?continue='
-				.urlencode('https://appengine.google.com/_ah/logout?continue='
-					.urlencode( $redirect_url )
-				);
+			$continueurl = $this->get_google_logout_url();
 
 			$cancelurl = !empty($_GET['redirect_to']) ? $_GET['redirect_to'] : '';
 			
@@ -478,6 +472,18 @@ class commercial_google_apps_login extends core_google_apps_login {
 		return $message;
 	}
 	
+	protected function get_google_logout_url() {
+		$redirect_url = !empty($_GET['redirect_to']) ? $_GET['redirect_to']
+		: $this->get_login_url().'?loggedout=true&galoggedout=true';
+			
+		$continueurl = 'https://www.google.com/accounts/Logout?continue='
+				.urlencode('https://appengine.google.com/_ah/logout?continue='
+						.urlencode( $redirect_url )
+				);
+		
+		return $continueurl;
+	}
+	
 	public function ga_logout() {
 		$options = $this->get_option_galogin();
 		if (!empty( $_REQUEST['redirect_to'] ) && $options['ga_googlelogout']) {
@@ -501,13 +507,13 @@ class commercial_google_apps_login extends core_google_apps_login {
 			$license_key = $options['ga_license_key'];
 		}
 	
-		if( !class_exists( 'EDD_SL_Plugin_Updater3' ) ) {
+		if( !class_exists( 'EDD_SL_Plugin_Updater4' ) ) {
 			// load our custom updater
 			include( dirname( __FILE__ ) . '/EDD_SL_Plugin_Updater.php' );
 		}
 			
 		// setup the updater
-		$edd_updater = new EDD_SL_Plugin_Updater3( WPGLOGIN_GA_STORE_URL, $this->my_plugin_basename(),
+		$edd_updater = new EDD_SL_Plugin_Updater4( WPGLOGIN_GA_STORE_URL, $this->my_plugin_basename(),
 				array(
 						'version' 	=> $this->PLUGIN_VERSION,
 						'license' 	=> $license_key,
