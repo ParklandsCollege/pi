@@ -26,12 +26,15 @@
 	echo '</div>'; // gdlr-navigation-wrapper
 
 
-	echo '<div class="gdlr-navigation-wrapper">';
-	function register_my_menu() {
-	  register_nav_menu('header-menu',__( 'Sub Menu' ));
+	function register_my_menus() {
+		register_nav_menus(
+			array(
+			'new-menu' => __( 'Grade menu' ),
+			)
+		);
 	}
-	add_action( 'init', 'register_my_menu' );
-
+	add_action( 'init', 'register_my_menus' );
+	wp_nav_menu( array( 'theme_location' => 'new-menu' ) );
 	echo '<div class="clear"></div>';
 	echo '</div>';
 ?>
