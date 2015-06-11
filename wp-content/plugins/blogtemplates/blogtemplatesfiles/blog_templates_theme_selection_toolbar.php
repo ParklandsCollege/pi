@@ -15,7 +15,7 @@ class blog_templates_theme_selection_toolbar {
 	}
 
 	public function add_javascript() {
-		wp_enqueue_script( 'nbt-toolbar-scripts', NBT_PLUGIN_URL . 'blogtemplatesfiles/assets/js/toolbar.js', array( 'jquery' ) );	 		  		 		 	  		  
+		wp_enqueue_script( 'nbt-toolbar-scripts', NBT_PLUGIN_URL . 'blogtemplatesfiles/assets/js/toolbar.js', array( 'jquery' ) );
 		$params = array(
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'imagesurl' => NBT_PLUGIN_URL . 'blogtemplatesfiles/assets/images/'
